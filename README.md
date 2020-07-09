@@ -9,6 +9,13 @@ News Scanner
 2. Run `yarn` or `npm install` to install dependencies.<br />
 3. Run `yarn start` to see the app at `http://localhost:8080`.
 
+## Workflow
+
+1. Update code
+2. Run `git stage .` or `git add .` to add changes<br />
+3. Run `git commit -m 'your message'` make commit.
+4. Run `git push` to push changes to remote.
+
 ## Features
 
 This boilerplate features all the latest tools and practices in the industry.
