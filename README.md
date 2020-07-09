@@ -1,10 +1,13 @@
 <h1 align="center">
-
 News Scanner
-
 </h1>
-
 <p align="center">The most simple and robust tool for media.</p>
+
+## Getting started
+
+1. Clone this repo
+2. Run `yarn` or `npm install` to install dependencies.<br />
+3. Run `yarn start` to see the app at `http://localhost:8080`.
 
 ## Features
 
@@ -19,12 +22,6 @@ This boilerplate features all the latest tools and practices in the industry.
 - 💖 **Lint** — ESlint
 - 🐶 **Husky** — Prevent bad commits
 
-## Getting started
-
-1. Clone this repo
-2. Run `yarn` or `npm install` to install dependencies.<br />
-3. Run `yarn start` to see the app at `http://localhost:8080`.
-
 ## Commands
 
 - `npm start` - start the dev server
@@ -35,7 +32,3 @@ This boilerplate features all the latest tools and practices in the industry.
 - `npm run test:watch` - run all tests in watch mode
 - `npm run test:cover` - coverage mode
 - `npm run cypress:open` - starts cypress
-
-## License
-
-MIT license, Copyright (c) 2018 Leonardo Maldonado.
