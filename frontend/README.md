@@ -11,10 +11,11 @@ News Scanner
 
 ## Workflow
 
-1. Update code
-2. Run `git stage .` or `git add .` to add changes<br />
-3. Run `git commit -m 'your message'` make commit.
-4. Run `git push` to push changes to remote.
+1. Run `git fetch all` to update code from remote
+2. Update code
+3. Run `git stage .` or `git add .` to add changes<br />
+4. Run `git commit -m 'your message'` make commit.
+5. Run `git push` to push changes to remote.
 
 ## Features
 

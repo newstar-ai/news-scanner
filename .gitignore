@@ -59,3 +59,9 @@ typings/
 
 # next.js build output
 .next
+
+#backend
+__pycache__
+.DS_Store
+
+
