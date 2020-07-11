@@ -1,19 +1,25 @@
 from flask import Blueprint, request, jsonify
-# from OCR.text_detect import detect_text
+from OCR.text_detect import detect_text
 from .utils import *
 from .schemas import *
 from elasticsearch.exceptions import NotFoundError
 from werkzeug.utils import secure_filename
 
-import json 
+import json
+
+dev_mode = True
 
 article_bp = Blueprint('article_blueprint', __name__)
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
+
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # Convert text from img
+
+
 @article_bp.route('/convert_text', methods=['GET', 'POST'])
 def predict():
     if 'img' not in request.files:
@@ -28,11 +34,27 @@ def predict():
     # Process image of an article
     if img and allowed_file(img.filename):
         filename = secure_filename(img.filename)
+
+
+<< << << < HEAD
         # data = detect_text(img)
         data = {
             'Title': 'fake title',
             'Texts': 'fake content'
         }
+== == == =
+        data = {}
+        data['image_name'] = filename
+        data['paper_name'] = request.form['paper_name']
+        data['publication'] = request.form['publication']
+        data['page_num'] = request.form['page_num']
+        if dev_mode == False:
+            ai_data = detect_text(img)
+        else:
+            ai_data = {"article_title": "Development Title",
+                "article_content": "Development Content"}
+        data.update(ai_data)
+>>>>>> > 94f83cf43d0a51416e58d1c21ab19d6b1b03b376
         result = json.dumps(data, ensure_ascii=False, indent=4)
     # Not an image file
     else:
@@ -40,7 +62,7 @@ def predict():
         result.status_code = 400
     return result
 
-#Search_article_by title
+# Search_article_by title
 @article_bp.route('/search/title', methods=['POST'])
 def search_atcl_by_title():
     data_search = request.json
@@ -56,7 +78,7 @@ def search_atcl_by_title():
     data_result = json.dumps(data_result, ensure_ascii=False, indent=4)
     return data_result
 
-#Search_article_by author
+# Search_article_by author
 @article_bp.route('/search/author', methods=['POST'])
 def search_atcl_by_author():
     data_search = request.json
@@ -72,7 +94,7 @@ def search_atcl_by_author():
     data_result = json.dumps(data_result, ensure_ascii=False, indent=4)
     return data_result
 
-#Search_article_by content
+# Search_article_by content
 @article_bp.route('/search/content', methods=['POST'])
 def search_atcl_by_content():
     data_search = request.json

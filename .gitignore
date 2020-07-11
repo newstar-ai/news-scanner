@@ -60,8 +60,17 @@ typings/
 # next.js build output
 .next
 
+# other
+.idea
+
 #backend
+
+# ignore the cache
 __pycache__
 .DS_Store
 
+# ignore .flaskenv
+.flaskenv
 
+# creadential
+google_credentials.json
