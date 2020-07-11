@@ -64,4 +64,6 @@ typings/
 __pycache__
 .DS_Store
 
-
+# don't push credentials to git
+google_credentials.json
+.idea/
