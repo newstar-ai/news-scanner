@@ -5,15 +5,19 @@ from .schemas import *
 from elasticsearch.exceptions import NotFoundError
 from werkzeug.utils import secure_filename
 
-import json 
+import json
 
 article_bp = Blueprint('article_blueprint', __name__)
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
+
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # Convert text from img
+
+
 @article_bp.route('/convert_text', methods=['GET', 'POST'])
 def predict():
     if 'img' not in request.files:
@@ -33,6 +37,17 @@ def predict():
             'Title': 'fake title',
             'Texts': 'fake content'
         }
+        data = {}
+        data['image_name'] = filename
+        data['paper_name'] = request.form['paper_name']
+        data['publication'] = request.form['publication']
+        data['page_num'] = request.form['page_num']
+        if dev_mode == False:
+            ai_data = detect_text(img)
+        else:
+            ai_data = {"article_title": "Development Title",
+                       "article_content": "Development Content"}
+        data.update(ai_data)
         result = json.dumps(data, ensure_ascii=False, indent=4)
     # Not an image file
     else:
@@ -40,7 +55,9 @@ def predict():
         result.status_code = 400
     return result
 
-#Search_article_by title
+# Search_article_by title
+
+
 @article_bp.route('/search/title', methods=['POST'])
 def search_atcl_by_title():
     data_search = request.json
@@ -56,7 +73,9 @@ def search_atcl_by_title():
     data_result = json.dumps(data_result, ensure_ascii=False, indent=4)
     return data_result
 
-#Search_article_by author
+# Search_article_by author
+
+
 @article_bp.route('/search/author', methods=['POST'])
 def search_atcl_by_author():
     data_search = request.json
@@ -72,7 +91,9 @@ def search_atcl_by_author():
     data_result = json.dumps(data_result, ensure_ascii=False, indent=4)
     return data_result
 
-#Search_article_by content
+# Search_article_by content
+
+
 @article_bp.route('/search/content', methods=['POST'])
 def search_atcl_by_content():
     data_search = request.json
@@ -89,6 +110,8 @@ def search_atcl_by_content():
     return data_result
 
 # Get article from id
+
+
 @article_bp.route('/get/<atcl_id>', methods=['GET'])
 def get_article(atcl_id):
     try:
@@ -103,6 +126,7 @@ def get_article(atcl_id):
         data.status_code = 400
     return data
 
+
 # Update article from id
 '''
 data parse must be something like this
@@ -112,9 +136,11 @@ data parse must be something like this
     "content": "new"
 }
 '''
+
+
 @article_bp.route('/update/<atcl_id>', methods=['POST'])
 def update_article(atcl_id):
-    data = request.json 
+    data = request.json
     if validateArticleData(data, article_update_schema):
         es.update(
             index=newspaper_index,
@@ -133,8 +159,8 @@ def update_article(atcl_id):
                 }
             }
         )
-        result="update sucess!"
-    else: 
+        result = "update sucess!"
+    else:
         result = "update failed, check your data and update again"
     result_response = {
         "message": result
@@ -161,6 +187,8 @@ data parse must be something like this
     }
 }
 '''
+
+
 @article_bp.route('/upload/<atcl_id>', methods=['POST'])
 def upload_article(atcl_id):
     data = request.json
