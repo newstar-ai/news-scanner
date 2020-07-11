@@ -11,6 +11,8 @@ News Scanner
 2. Run `yarn` or `npm install` to install dependencies.<br />
 3. Run `yarn start` to see the app at `http://localhost:8080`.
 
+### Backend
+
 ## Workflow
 
 1. Run `git fetch all` to update code from remote
