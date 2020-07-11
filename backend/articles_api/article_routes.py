@@ -11,24 +11,21 @@ article_bp = Blueprint('article_blueprint', __name__)
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
+dev_mode = True
+
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # Convert text from img
-
-
 @article_bp.route('/convert_text', methods=['GET', 'POST'])
 def predict():
     if 'img' not in request.files:
         result = jsonify({'message': 'No image part in the request'})
         result.status_code = 400
+        return result
     # Request image file
     img = request.files['img']
-    # No file selected
-    if img.filename == '':
-        result = jsonify({'message': 'No image has been selected'})
-        result.status_code = 400
     # Process image of an article
     if img and allowed_file(img.filename):
         filename = secure_filename(img.filename)
@@ -39,9 +36,9 @@ def predict():
         }
         data = {}
         data['image_name'] = filename
-        data['paper_name'] = request.form['paper_name']
-        data['publication'] = request.form['publication']
-        data['page_num'] = request.form['page_num']
+        data['paper_name'] = request.form["paper_name"]
+        data['publication'] = request.form["publication"]
+        data['page_num'] = request.form["page_num"]
         if dev_mode == False:
             ai_data = detect_text(img)
         else:
@@ -51,7 +48,7 @@ def predict():
         result = json.dumps(data, ensure_ascii=False, indent=4)
     # Not an image file
     else:
-        result = jsonify({'message': 'File extension is not allowed'})
+        result = jsonify({'message': 'File extension is not allowed or no image has been selected'})
         result.status_code = 400
     return result
 
@@ -187,8 +184,6 @@ data parse must be something like this
     }
 }
 '''
-
-
 @article_bp.route('/upload/<atcl_id>', methods=['POST'])
 def upload_article(atcl_id):
     data = request.json
