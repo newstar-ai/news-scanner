@@ -5,7 +5,8 @@ import numpy as np
 from OCR.word_extract import get_degree, get_word, get_title
 from OCR.organize import get_overlap
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'google_credentials.json'
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'D:\\infore\\NewsScanner\\google_credentials.json'
+
 
 def detect_text(img):
     client = vision.ImageAnnotatorClient()
@@ -100,6 +101,6 @@ def detect_text(img):
     ans = {}
     title = bytes(' '.join(possible_title_paragraphs).replace('\n', ' '), encoding='utf-8')
     text = bytes(' '.join(final_content).replace("\n", ' '), encoding='utf-8')
-    ans['article_title'] = title.decode('utf-8')
-    ans['article_content'] = text.decode('utf-8')
+    ans['Title'] = title.decode('utf-8')
+    ans['Texts'] = text.decode('utf-8')
     return ans

@@ -1,13 +1,11 @@
 from flask import Blueprint, request, jsonify
-from OCR.text_detect import detect_text
+# from OCR.text_detect import detect_text
 from .utils import *
 from .schemas import *
 from elasticsearch.exceptions import NotFoundError
 from werkzeug.utils import secure_filename
 
-import json
-
-dev_mode = True
+import json 
 
 article_bp = Blueprint('article_blueprint', __name__)
 
@@ -30,16 +28,11 @@ def predict():
     # Process image of an article
     if img and allowed_file(img.filename):
         filename = secure_filename(img.filename)
-        data = {}
-        data['image_name'] = filename
-        data['paper_name'] = request.form['paper_name']
-        data['publication'] = request.form['publication']
-        data['page_num'] = request.form['page_num']
-        if dev_mode == False:
-            ai_data = detect_text(img)
-        else:
-            ai_data = {"article_title": "Development Title", "article_content": "Development Content"}
-        data.update(ai_data)
+        # data = detect_text(img)
+        data = {
+            'Title': 'fake title',
+            'Texts': 'fake content'
+        }
         result = json.dumps(data, ensure_ascii=False, indent=4)
     # Not an image file
     else:
