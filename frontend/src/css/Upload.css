@@ -1,0 +1,16 @@
+.Upload {
+    flex:1;
+    margin-left: 10px;
+}
+
+.upload {
+    margin-top: 10px;
+    width: 30px;
+    height: 30px;
+}
+
+.upload:hover {
+    cursor: pointer;
+    transform: scale(1.25,1.25);
+    transition: ease-in-out;
+}

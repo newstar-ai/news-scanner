@@ -1,24 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import Search from '../components/Search';
-
-const Container = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100vh;
-    font-family: 'Open Sans', sans-serif;
-`;
-
-const Wrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-    width: 500px;
-    height: 40%;
-`;
+import Upload from '../components/Upload';
+import '../css/homepage.css';
 
 const Title = styled.h1`
     color: black;
@@ -27,15 +11,17 @@ const Title = styled.h1`
 `;
 
 const Homepage = () => (
-    <Container>
-        <Wrapper>
-            <Title>
-                Homepage <br/>
+    <div className="homepage">
+        <Title>
+            <a href="/">
                 News Scanner
-            </Title>
+            </a>
+        </Title>
+        <div className="container">
             <Search />
-        </Wrapper>
-    </Container>
+            <Upload />
+        </div>
+    </div>
 );
 
 export default Homepage;

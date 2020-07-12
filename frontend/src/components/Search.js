@@ -1,38 +1,35 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
 
-const Container = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100vh;
-    font-family: 'Open Sans', sans-serif;
-`;
+import glass from '../images/glass.svg';
+import '../css/Search.css';
 
-const Wrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-    width: 500px;
-    height: 40%;
-`;
+const Search = () => {
 
-const Title = styled.h1`
-    color: black;
-    font-size: 2.5rem;
-    font-weight: 700;
-`;
+    const [news, setNews] = useState('')
 
-const Search = () => (
-    <Container>
-        <Wrapper>
-            <Title>
-                Search
-            </Title>
-        </Wrapper>
-    </Container>
-);
+    const API_URL = 'http://10.2.50.231:5000/article/search/content'
+    useEffect(() => {
+        axios.get(API_URL).then((response) => {
+            setNews(response.data);
+            console.log(response.data)
+        })
+    }, [setNews]);
+
+    return (
+        <div className="Search">
+            <div className="search-entry">
+                <input className="search-bar" type="text" placeholder="What are you looking for?"/>
+                <button className="search-button" type="submit"><img className="glass" alt="magnifying glass" src={glass} /></button>
+            </div>
+            <div className="news">
+                <h1>This is news preview</h1>
+                <div>
+                    {news}
+                </div>
+            </div>
+        </div>
+    )
+};
 
 export default Search;
