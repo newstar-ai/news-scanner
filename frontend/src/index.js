@@ -6,18 +6,19 @@ import { createGlobalStyle } from 'styled-components';
 
 import store from './store';
 import App from './App';
+import 'antd/dist/antd.css';
 import reset from './constants/css/reset';
 
 const GlobalStyle = createGlobalStyle`${reset}`;
 
 ReactDOM.render(
-    <BrowserRouter>
-        <Fragment>
-            <Provider store={store}>
-                <App />
-            </Provider>
-            <GlobalStyle />
-        </Fragment>
-    </BrowserRouter>,
-    document.getElementById('root')
+  <BrowserRouter>
+    <Fragment>
+      <Provider store={store}>
+        <App />
+      </Provider>
+      <GlobalStyle />
+    </Fragment>
+  </BrowserRouter>,
+  document.getElementById('root')
 );

@@ -1,27 +1,25 @@
 import React from 'react';
 import styled from 'styled-components';
-import Search from '../components/Search';
+import SearchComponent from '../components/SearchComponent';
 import Upload from '../components/Upload';
 import '../css/homepage.css';
 
 const Title = styled.h1`
-    color: black;
-    font-size: 2.5rem;
-    font-weight: 700;
+  color: black;
+  font-size: 2.5rem;
+  font-weight: 700;
 `;
 
 const Homepage = () => (
-    <div className="homepage">
-        <Title>
-            <a href="/">
-                News Scanner
-            </a>
-        </Title>
-        <div className="container">
-            <Search />
-            <Upload />
-        </div>
+  <div className="homepage">
+    <Title>
+      <a href="/">News Scanner</a>
+    </Title>
+    <div className="container">
+      <SearchComponent />
+      <Upload />
     </div>
+  </div>
 );
 
 export default Homepage;

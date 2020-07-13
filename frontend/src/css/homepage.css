@@ -1,16 +1,15 @@
-.homepage{
-/*     background-image: url('../images/newspaper2.jpg');
+.homepage {
+  /*     background-image: url('../images/newspaper2.jpg');
     background-size: cover; */
-    min-height: 100vh;
-    
+  min-height: 100vh;
 }
-.container{
-    margin: 20px 50px;
-    display: flex;
-    flex-direction: row;
+.container {
+  margin: 20px 50px;
+  display: flex;
+  /* flex-direction: row; */
 }
 
 h1 {
-    font-family: 'Alegreya SC', serif;
-    text-align: center;
+  font-family: 'Alegreya SC', serif;
+  text-align: center;
 }
