@@ -20,3 +20,4 @@ def search_atcl_querry(field, data_search):
 			}
 		}
 	}
+	return query
