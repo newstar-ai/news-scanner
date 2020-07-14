@@ -11,18 +11,11 @@ const { Search } = Input;
 const SearchComponent = () => {
   const [news, setNews] = useState('');
 
-  const API_URL =
-    'https://cors-anywhere.herokuapp.com/http://10.2.50.231:5000/article/search/content';
+  // const API_URL = ;
   useEffect(() => {}, []);
   const handleSearch = () => {
     axios
-      .post(
-        API_URL,
-        {
-          content: 'muon'
-        },
-        { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
-      )
+      .get('article/get/69')
       .then(response => {
         console.log(response);
         setNews(response.data);
