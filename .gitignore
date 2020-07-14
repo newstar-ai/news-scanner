@@ -63,6 +63,7 @@ typings/
 #backend
 __pycache__
 .DS_Store
+backend/static/img
 
 # don't push credentials to git
 google_credentials.json
