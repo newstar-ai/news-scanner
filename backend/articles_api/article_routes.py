@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, current_app, url_for 
 # from OCR.text_detect import detect_text
 from .utils import *
 from .schemas import *
@@ -29,16 +29,17 @@ def predict():
     # Process image of an article
     if img and allowed_file(img.filename):
         filename = secure_filename(img.filename)
-        # data = detect_text(img)
-        data = {
-            'Title': 'fake title',
-            'Texts': 'fake content'
-        }
+        out_path_url, img_url = save_image_upload(current_app, img, filename)
+        
         data = {}
+        data['img_url'] = img_url
         data['image_name'] = filename
+        data['local_url'] = out_path_url
         data['paper_name'] = request.form["paper_name"]
         data['publication'] = request.form["publication"]
         data['page_num'] = request.form["page_num"]
+
+
         if dev_mode == False:
             ai_data = detect_text(img)
         else:
@@ -184,11 +185,11 @@ data parse must be something like this
     }
 }
 '''
-@article_bp.route('/upload/<atcl_id>', methods=['POST'])
-def upload_article(atcl_id):
+@article_bp.route('/upload/', methods=['POST'])
+def upload_article():
     data = request.json
     if validateArticleData(data, article_upload_schema):
-        es.index(index=newspaper_index, id=atcl_id, body=data)
+        es.index(index=newspaper_index, body=data)
         result = "upload sucess!"
     else:
         result = "upload failed, check your data and upload again"
@@ -197,3 +198,11 @@ def upload_article(atcl_id):
         "message": result
     }
     return json.dumps(result_response)
+
+#Get all article data 
+@article_bp.route('/get_all', methods=['GET'])
+def get_all():
+    result = es.search(index=newspaper_index, body={"query": {"match_all": {}}})
+    result = json.dumps(result)
+
+    return result
