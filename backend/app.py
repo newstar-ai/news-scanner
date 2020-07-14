@@ -11,7 +11,7 @@ app.register_blueprint(article_bp, url_prefix='/article')
 UPLOAD_FOLDER_IMG = os.path.join(app.root_path, "static/img")
 app.config['UPLOAD_FOLDER_IMG'] = UPLOAD_FOLDER_IMG
 app.config['ROOT_PATH'] = app.root_path
-app.config['HOST'] = f'{socket.gethostbyname_ex(socket.gethostname())[-1][1]}:5000'
+app.config['HOST'] = f'{socket.gethostbyname_ex(socket.gethostname())[-1][-1]}:5000'
 
 @app.route('/')
 def hello():
