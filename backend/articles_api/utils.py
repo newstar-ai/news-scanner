@@ -35,4 +35,7 @@ def save_image_upload(current_app, img, filename):
 	outpath_img = os.path.join(current_app.config['UPLOAD_FOLDER_IMG'], today_date, filename)
 	image_url = os.path.join(current_app.config['HOST'], 'img', today_date, filename)
 	img.save(outpath_img)
+	if os.name == 'nt':
+		outpath_img = outpath_img.replace("\\", "/")
+		image_url = image_url.replace("\\", "/")
 	return outpath_img, image_url
