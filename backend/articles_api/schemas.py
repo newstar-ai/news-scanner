@@ -6,7 +6,8 @@ article_upload_schema = {
 				"article_title": {"type": "string"},
 				"article_author": {"type": "string"},
 				"article_content": {"type": "string"},
-				"article_url_local": {"type": "string"}
+				"article_url_local": {"type": "string"},
+				"article_url_web": {"type": "string"}
 			},
 			"required": ["article_title", "article_content", "article_url_local"],
 			"additionalProperties": False

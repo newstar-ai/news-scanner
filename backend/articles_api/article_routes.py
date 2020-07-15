@@ -171,10 +171,11 @@ def update_article(atcl_id):
 data parse must be something like this
 {
     "article_info": {
-        "article_title": "fake",
-        "article_author": "fal",
-        "article_content": "abo",
-        "article_url_local": "uss"
+        "article_title": "title 4",
+        "article_author": "author 4",
+        "article_content": "content 4",
+        "article_url_local": "/data/img/on/local",
+        "article_url_web": "http://serverhost/example/path"
     },
     "publication_info": {
         "publication_title": "@2",
