@@ -1,18 +1,5 @@
-.search {
-}
-
-.search-entry {
-  display: flex;
-  flex-direction: row;
-}
-
-.search-bar {
-  height: 48px;
-  border-radius: 30px;
-  border: 1px solid black;
-  padding: 12px;
-  box-shadow: 2px 4px 8px 0 black /* #0080ff */;
-  transition: transform 250ms ease-in-out;
-  transform-style: preserve-3d;
+.result {
   color: black;
+  margin-top: 20px;
+  display: block;
 }

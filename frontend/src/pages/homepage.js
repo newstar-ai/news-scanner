@@ -11,15 +11,15 @@ const Title = styled.h1`
 `;
 
 const Homepage = () => (
-  <div className="homepage">
-    <Title>
-      <a href="/">News Scanner</a>
-    </Title>
-    <div className="container">
-      <SearchComponent />
-      {/* <Upload /> */}
+    <div className="homepage">
+        <Title>
+            <a href="/">News Scanner</a>
+        </Title>
+        <div className="container">
+            <SearchComponent />
+            <Upload />
+        </div>
     </div>
-  </div>
 );
 
 export default Homepage;

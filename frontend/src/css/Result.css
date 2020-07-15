@@ -1,0 +1,8 @@
+.ant-card-head {
+    border: 2px solid orange;
+    box-shadow: 2px 4px 8px orange;
+}
+
+.ant-card-body {
+    border-top: 2px solid orange;
+}

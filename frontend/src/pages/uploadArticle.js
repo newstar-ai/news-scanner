@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  display: flex;
+  display: block;
   justify-content: center;
   width: 100%;
   font-family: 'Open Sans', sans-serif;
