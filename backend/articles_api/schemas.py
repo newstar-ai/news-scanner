@@ -9,7 +9,7 @@ article_upload_schema = {
 				"article_url_local": {"type": "string"},
 				"article_url_web": {"type": "string"}
 			},
-			"required": ["article_title", "article_content", "article_url_local"],
+			"required": ["article_title", "article_content", "article_url_local", "article_url_web"],
 			"additionalProperties": False
 		},
 		"publication_info": {
