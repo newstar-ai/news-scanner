@@ -9,13 +9,17 @@ import App from './App';
 import 'antd/dist/antd.css';
 import reset from './constants/css/reset';
 
+import history from './utils/history';
+
 const GlobalStyle = createGlobalStyle`${reset}`;
 
 ReactDOM.render(
   <BrowserRouter>
     <Fragment>
       <Provider store={store}>
-        <App />
+        <BrowserRouter history={history}>
+          <App />
+        </BrowserRouter>
       </Provider>
       <GlobalStyle />
     </Fragment>

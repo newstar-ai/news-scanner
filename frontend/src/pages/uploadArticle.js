@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { Upload, Button, message } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 
 export const Container = styled.div`
   display: flex;
@@ -23,13 +25,47 @@ const Title = styled.h1`
   font-weight: 700;
 `;
 
-const UploadArticle = () => (
-  <Container>
-    <Wrapper>
-      <Title>Upload Article</Title>
-      <Search />
-    </Wrapper>
-  </Container>
-);
+const UploadArticle = () => {
+  const [fileList, setFileList] = useState([]);
+  const [uploading, setUploading] = useState(false);
+
+  const props = {
+    onRemove: file => {
+      const index = fileList.indexOf(file);
+      const newFileList = fileList.slice();
+      newFileList.splice(index, 1);
+      setFileList(newFileList);
+    },
+    beforeUpload: file => {
+      setFileList([...fileList, file]);
+      this.setState(state => ({
+        fileList: [...state.fileList, file]
+      }));
+      return false;
+    },
+    fileList
+  };
+  return (
+    <Container>
+      <Wrapper>
+        <Title>Upload Article</Title>
+        <Upload {...props}>
+          <Button>
+            <UploadOutlined /> Select File
+          </Button>
+        </Upload>
+        <Button
+          type="primary"
+          // onClick={handleUpload}
+          disabled={fileList.length === 0}
+          loading={uploading}
+          style={{ marginTop: 16 }}
+        >
+          {uploading ? 'Uploading' : 'Start Upload'}
+        </Button>
+      </Wrapper>
+    </Container>
+  );
+};
 
 export default UploadArticle;

@@ -4,14 +4,19 @@ from articles_api.article_routes import article_bp
 import json
 import os
 import socket
+from flask_cors import CORS
 
-app = Flask(__name__, static_url_path='', static_folder='static', template_folder='templates')
+
+app = Flask(__name__, static_url_path='',
+            static_folder='static', template_folder='templates')
+CORS(app)
 app.register_blueprint(article_bp, url_prefix='/article')
 
 UPLOAD_FOLDER_IMG = os.path.join(app.root_path, "static/img")
 app.config['UPLOAD_FOLDER_IMG'] = UPLOAD_FOLDER_IMG
 app.config['ROOT_PATH'] = app.root_path
 app.config['HOST'] = f'{socket.gethostbyname_ex(socket.gethostname())[-1][-1]}:5000'
+
 
 @app.route('/')
 def hello():

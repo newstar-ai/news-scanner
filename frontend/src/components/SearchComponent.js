@@ -15,7 +15,7 @@ const SearchComponent = () => {
   useEffect(() => {}, []);
   const handleSearch = () => {
     axios
-      .get('article/get/69')
+      .get('http://localhost:5000/article/get_all')
       .then(response => {
         console.log(response);
         setNews(response.data);
