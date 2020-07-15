@@ -33,11 +33,11 @@ def predict():
         
         data = {}
         data['img_url'] = img_url
-        data['image_name'] = filename
         data['local_url'] = out_path_url
-        data['paper_name'] = request.form["paper_name"]
-        data['publication'] = request.form["publication"]
-        data['page_num'] = request.form["page_num"]
+        # data['image_name'] = filename
+        # data['paper_name'] = request.form["paper_name"]
+        # data['publication'] = request.form["publication"]
+        # data['page_num'] = request.form["page_num"]
 
 
         if dev_mode == False:
