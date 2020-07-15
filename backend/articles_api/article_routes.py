@@ -174,7 +174,8 @@ data parse must be something like this
         "article_title": "fake",
         "article_author": "fal",
         "article_content": "abo",
-        "article_url_local": "uss"
+        "article_url_local": "/path/on/server"
+        "article_url_web": "/path/on/web"
     },
     "publication_info": {
         "publication_title": "@2",
