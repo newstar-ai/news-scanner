@@ -4,14 +4,17 @@ import cv2
 import numpy as np
 from OCR.word_extract import get_degree, get_word, get_title
 from OCR.organize import get_overlap
+import io
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'D:\\infore\\NewsScanner\\google_credentials.json'
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'C:\\Users\\datluu\\other\\demo_credentials.json'
 
 
-def detect_text(img):
+def detect_text(img_path):
     client = vision.ImageAnnotatorClient()
 
-    content = img.read()
+    with io.open(img_path, 'rb') as image_file:
+        content = image_file.read()
+
     # set image
     image = vision.types.Image(content=content)
 
