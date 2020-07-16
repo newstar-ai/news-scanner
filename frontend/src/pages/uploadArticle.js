@@ -8,7 +8,7 @@ import { Row, Col } from 'antd';
 const { TextArea } = Input;
 
 export const Container = styled.div`
-  display: flex;
+  display: block;
   justify-content: center;
   width: 100%;
   font-family: 'Open Sans', sans-serif;

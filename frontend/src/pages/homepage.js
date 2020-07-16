@@ -12,19 +12,16 @@ const Title = styled.h1`
   font-weight: 700;
 `;
 
-const Homepage = () => {
-  return (
-    <div className="homepage">
-      <Title>
-        <a href="/">News Scanner</a>
-      </Title>
-      <div className="container">
-        <SearchComponent />
-
-        <Link to="/upload">Upload</Link>
-      </div>
+const Homepage = () => (
+  <div className="homepage">
+    <Title>
+      <a href="/">News Scanner</a>
+    </Title>
+    <div className="container">
+      <SearchComponent />
+      <Upload />
     </div>
-  );
-};
+  </div>
+);
 
 export default Homepage;
