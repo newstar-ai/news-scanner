@@ -19,7 +19,8 @@ const Homepage = () => (
     </Title>
     <div className="container">
       <SearchComponent />
-      <Upload />
+      <Link to="/upload">Upload</Link>
+      {/* <UploadArticle /> */}
     </div>
   </div>
 );
