@@ -1,11 +1,26 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import styled from 'styled-components';
-import { Upload, Button, message, Form, Input, InputNumber } from 'antd';
+import {
+  Upload,
+  Button,
+  message,
+  Form,
+  Input,
+  InputNumber,
+  DatePicker,
+  Row,
+  Col,
+  Layout,
+  Menu
+} from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
-import { Row, Col } from 'antd';
+import moment from 'moment';
 
 const { TextArea } = Input;
+const { Header, Content, Footer } = Layout;
+
+const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
 
 export const Container = styled.div`
   display: block;
@@ -19,8 +34,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  width: 900px;
-  height: 40%;
+  width: 100%;
 `;
 
 const Title = styled.h1`
@@ -152,23 +166,10 @@ const UploadArticle = () => {
                   form={form}
                   onFinish={onFinish}
                 >
-                  {/* #1 newspaper_title */}
+                  {/* article_title */}
                   <Form.Item
-                    name="newspaper_title"
-                    label="Newspaper Title"
-                    rules={[
-                      {
-                        required: true
-                      }
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-
-                  {/* publication_title */}
-                  <Form.Item
-                    name="publication_title"
-                    label="Publication Title"
+                    name="article_title"
+                    label="Article Title"
                     rules={[
                       {
                         required: true
@@ -191,10 +192,23 @@ const UploadArticle = () => {
                     <InputNumber />
                   </Form.Item>
 
-                  {/* article_title */}
+                  {/* publication_title */}
                   <Form.Item
-                    name="article_title"
-                    label="Article Title"
+                    name="publication_title"
+                    label="Publication Title"
+                    rules={[
+                      {
+                        required: true
+                      }
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+
+                  {/* newspaper_title */}
+                  <Form.Item
+                    name="newspaper_title"
+                    label="Newspaper Title"
                     rules={[
                       {
                         required: true
@@ -217,6 +231,23 @@ const UploadArticle = () => {
                     <Input />
                   </Form.Item>
 
+                  {/* date_pulished */}
+
+                  <Form.Item
+                    name="date_pulished"
+                    label="Date Pulished"
+                    rules={[
+                      {
+                        required: true
+                      }
+                    ]}
+                  >
+                    <DatePicker
+                      defaultValue={moment()}
+                      format={dateFormatList}
+                    />{' '}
+                  </Form.Item>
+
                   {/* article_content */}
 
                   <Form.Item
@@ -228,7 +259,7 @@ const UploadArticle = () => {
                       }
                     ]}
                   >
-                    <TextArea rows={4} />
+                    <TextArea rows={10} />
                   </Form.Item>
 
                   <Form.Item
