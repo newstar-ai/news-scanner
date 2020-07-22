@@ -1,5 +1,9 @@
-.result {
-  color: black;
-  margin-top: 20px;
-  display: block;
+.searchOption {
+	margin-top: 5px;
 }
+
+.searchOption .ant-radio-group {
+	margin-left: 10px;
+}
+
+

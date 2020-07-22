@@ -1,8 +1,38 @@
-.ant-card-head {
-    border: 2px solid blue;
-    box-shadow: 2px 4px 8px blue;
-}
+.item {
+	color: black;
+	margin-top: 10px;
+	display: block;
+  }
 
 .ant-card-body {
-    border-top: 2px solid blue;
+	height: 200px;
+}
+
+.ant-col-20 {
+	padding-right: 10px;
+}
+
+.ant-col > h2 {
+	font-size: 24px;
+	font-weight: 400px;
+}
+
+.ant-col > h3 {
+	font-size: 12px;
+	color: grey;
+}
+
+.ant-col > p {
+	font-size: 18px;
+	color: black;
+}
+
+.ant-col-4 {
+	position: relative;
+}
+
+.ant-col-4 > img {
+	position: absolute;
+	display: block;
+	height: 95%;
 }

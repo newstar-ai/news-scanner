@@ -1,20 +1,28 @@
 import React from 'react';
-import { Card } from 'antd';
+import { Card, Row, Col } from 'antd';
+import sgnews from '../images/sgnews.png';
 import '../css/Result.css';
 
-const Result = ({ artAuthor, artContent, artTitle, newsTitle, pubNum, pubTitle }) => {
-	return (
-		<div className="result">
-			<Card
-				title={artTitle}
-				headStyle={{ fontSize: 30, color: 'black' }}
-				style={{ width: '100%' }}>
-				<h2>{artAuthor}</h2>
-				<h3>{newsTitle} - {pubTitle} - {pubNum}</h3>
-				<p>{artContent}</p>
-			</Card>
-		</div>
-	);
+const Result = ({ artTitle, artAuthor, artContent, artLink, pageNum, pubTitle, pubDate, newsTitle, }) => {
+    return (
+        <div className="item">
+            <Card
+                hoverable
+                style={{ width: '100%' }}>
+                <Row>
+                    <Col span={20}>
+                        <h2><b>{artTitle}</b></h2>
+                        <h3>#{pageNum} - {pubTitle} - {newsTitle}</h3>
+                        <h3>{artAuthor} - 8/7/2020</h3>
+                        <p>{artContent}</p>
+                    </Col>
+                    <Col span={4}>
+                        <img src={sgnews} alt="News" />
+                    </Col>
+                </Row>
+            </Card>
+        </div>
+    );
 };
 
 export default Result;
