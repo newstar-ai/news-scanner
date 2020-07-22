@@ -1,23 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Input, Radio } from 'antd';
+import { Input, Radio, Card } from 'antd';
 import '../css/Search.css';
 import { Container } from '../pages/uploadArticle';
 import Result from './Result';
 
 const { Search } = Input;
 
-const options = [
-    { label: 'title', value: 'title' },
-    { label: 'author', value: 'author' },
-    { label: 'content', value: 'content' },
-];
-
 const SearchComponent = () => {
     const [news, setNews] = useState([]);
     const [searchInput, setSearchInput] = useState('');
     const [searchOption, setSearchOption] = useState('content');
+    const [loading, setLoading] = useState(true);
     const requestOptions = {};
+
+    const options = [
+        { label: 'title', value: 'title' },
+        { label: 'author', value: 'author' },
+        { label: 'content', value: 'content' },
+    ];
 
     const updateSearch = e => {
         setSearchInput(e.target.value);
@@ -32,6 +33,7 @@ const SearchComponent = () => {
             .get(`http://10.2.50.231:5000/article/get_all`)
             .then(response => {
                 console.log(response.data.hits.hits);
+                setLoading(false);
                 setNews(response.data.hits.hits);
             })
             .catch(error => {
@@ -41,12 +43,13 @@ const SearchComponent = () => {
 
     const getSearch = async () => {
 
+        setLoading(true);
         requestOptions[searchOption] = searchInput;
 
         const response = await axios.post(`http://10.2.50.231:5000/article/search/${searchOption}`, requestOptions);
-        const data = await response;
-        console.log(data.data.hits.hits);
-        setNews(data.data.hits.hits);
+        console.log(response.data.hits.hits);
+        setLoading(false);
+        setNews(response.data.hits.hits);
     };
 
     useEffect(() => {
@@ -69,7 +72,7 @@ const SearchComponent = () => {
                     onChange={handleRequest}
                 />
             </div>
-            <div className="result">
+            <Card loading={loading} bordered={false} style={{ width: '100%'}} className="result">
                 {news.map(item => (
                     <Result
                         key={item._id}
@@ -82,7 +85,7 @@ const SearchComponent = () => {
                         newsTitle={item._source.newspaper_info.newspaper_title}
                     />
                 ))}
-            </div>
+            </Card>
         </Container>
     );
 };

@@ -6,4 +6,10 @@
 	margin-left: 10px;
 }
 
+.result {
+	height: fit-content;
+}
 
+.result > .ant-card-body {
+	padding: 0;
+}
