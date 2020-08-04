@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import {
   Upload,
@@ -44,127 +44,108 @@ const Title = styled.h1`
 `;
 
 const UploadArticle = () => {
-  const [fileList, setFileList] = useState([]);
-  const [uploading, setUploading] = useState(false);
-  const [imgData, setImgData] = useState(null);
-  const [form] = Form.useForm();
+    const [fileList, setFileList] = useState([]);
+    const [uploading, setUploading] = useState(false);
+    const [imgData, setImgData] = useState(null);
+    const [form] = Form.useForm();
 
-  useEffect(() => {
-    console.log(fileList);
-  });
-
-  const props = {
-    onRemove: file => {
-      console.log(file);
-      const index = fileList.indexOf(file);
-      const newFileList = fileList.slice();
-      newFileList.splice(index, 1);
-      setFileList(newFileList);
-    },
-    beforeUpload: file => {
-      setFileList([...fileList, file]);
-      return false;
-    },
-    fileList
-  };
-
-  const handleUpload = () => {
-    const formData = new FormData();
-    fileList.forEach(file => {
-      formData.append('img', file);
+    useEffect(() => {
+        console.log(fileList);
     });
 
-    console.log(formData);
-    setUploading(true);
-    const config = {
-      headers: { 'Content-Type': 'multipart/form-data' }
+    const props = {
+        onRemove: file => {
+            console.log(file);
+            const index = fileList.indexOf(file);
+            const newFileList = fileList.slice();
+            newFileList.splice(index, 1);
+            setFileList(newFileList);
+        },
+        beforeUpload: file => {
+            setFileList([...fileList, file]);
+            return false;
+        },
+        fileList
     };
 
-    axios
-      .post('http://10.2.50.231:5000/article/convert_text', formData, config)
-      .then(response => {
-        console.log(response);
-        setFileList([]);
-        setUploading(false);
-        setImgData(response.data);
-        message.success('upload successfully.');
-      })
-      .catch(error => {
-        setUploading(false);
-        console.log(error);
-        message.error('upload failed.');
-      });
-  };
+    const handleUpload = () => {
+        const formData = new FormData();
+        fileList.forEach(file => {
+            formData.append('img', file);
+        });
 
-  const onFinish = values => {
-    const obj = {
-      article_info: {
-        article_title: values.article_title,
-        article_author: values.article_author,
-        article_content: values.article_content,
-        article_url_local: imgData.local_url
-      },
-      publication_info: {
-        publication_title: values.publication_title,
-        page_num: values.page_num
-      },
-      newspaper_info: {
-        newspaper_title: values.newspaper_title
-      }
+        console.log(formData);
+        setUploading(true);
+        const config = {
+            headers: { 'Content-Type': 'multipart/form-data' }
+        };
+
+        axios
+            .post('http://10.2.50.231:5000/article/convert_text', formData, config)
+            .then(response => {
+                console.log(response);
+                setFileList([]);
+                setUploading(false);
+                setImgData(response.data);
+                message.success('upload successfully.');
+            })
+            .catch(error => {
+                setUploading(false);
+                console.log(error);
+                message.error('upload failed.');
+            });
     };
-    axios
-      .post('http://10.2.50.231:5000/article/upload/', obj)
-      .then(response => {
-        console.log(response);
-        setUploading(false);
-        message.success('upload article successfully.');
-        window.location.replace('/');
-      })
-      .catch(error => {
-        setUploading(false);
-        console.log(error);
-        message.error('upload article failed.');
-      });
-  };
 
-  const onReset = () => {
-    form.resetFields();
-  };
+    const onFinish = values => {
+        const obj = {
+            article_info: {
+                article_title: values.article_title,
+                article_author: values.article_author,
+                article_content: values.article_content,
+                article_url_local: imgData.local_url
+            },
+            publication_info: {
+                publication_title: values.publication_title,
+                page_num: values.page_num
+            },
+            newspaper_info: {
+                newspaper_title: values.newspaper_title
+            }
+        };
+        axios
+            .post('http://10.2.50.231:5000/article/upload/', obj)
+            .then(response => {
+                console.log(response);
+                setUploading(false);
+                message.success('upload article successfully.');
+                window.location.replace('/');
+            })
+            .catch(error => {
+                setUploading(false);
+                console.log(error);
+                message.error('upload article failed.');
+            });
+    };
 
-  return (
-    <Container>
-      <Wrapper>
-        <Title>Upload Article</Title>
-        <Upload {...props}>
-          <Button>
-            <UploadOutlined /> Select File
-          </Button>
-        </Upload>
-        <Button
-          type="primary"
-          onClick={handleUpload}
-          disabled={fileList.length === 0}
-          loading={uploading}
-          style={{ marginTop: 16 }}
-        >
-          {uploading ? 'Uploading' : 'Start Upload'}
-        </Button>
+    const onReset = () => {
+        form.resetFields();
+    };
 
-        {imgData ? (
-          <div style={{ marginTop: 32 }}>
-            <Row gutter={16}>
-              <Col span={12}>
-                <img src={'http://' + imgData.img_url} />
-              </Col>
-              <Col span={12}>
-                <Form
-                  initialValues={{
-                    article_title: imgData.article_title,
-                    article_content: imgData.article_content
-                  }}
-                  layout={'vertical'}
-                  form={form}
-                  onFinish={onFinish}
+    return (
+        <Container>
+            <Wrapper>
+                <Title>Upload Article</Title>
+                <Upload {...props}>
+                    <Button>
+                        <UploadOutlined /> Select File
+                    </Button>
+                </Upload>
+                <Button
+                    type="primary"
+                    onClick={handleUpload}
+                    disabled={fileList.length === 0}
+                    loading={uploading}
+                    style={{ marginTop: 16 }}
                 >
                   {/* article_title */}
                   <Form.Item
@@ -217,19 +198,18 @@ const UploadArticle = () => {
                   >
                     <Input />
                   </Form.Item>
-
-                  {/* article_author */}
-                  <Form.Item
-                    name="article_author"
-                    label="Article Author"
-                    rules={[
-                      {
-                        required: true
-                      }
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
+                                    {/* article_title */}
+                                    <Form.Item
+                                        name="article_title"
+                                        label="Article Title"
+                                        rules={[
+                                            {
+                                                required: true
+                                            }
+                                        ]}
+                                    >
+                                        <Input />
+                                    </Form.Item>
 
                   {/* date_pulished */}
 
@@ -261,31 +241,42 @@ const UploadArticle = () => {
                   >
                     <TextArea rows={10} />
                   </Form.Item>
+                                    <Form.Item
+                                        name="article_content"
+                                        label="Article Content"
+                                        rules={[
+                                            {
+                                                required: true
+                                            }
+                                        ]}
+                                    >
+                                        <TextArea rows={4} />
+                                    </Form.Item>
 
-                  <Form.Item
-                  // {...tailLayout}
-                  >
-                    <Button type="primary" htmlType="submit">
-                      Submit
-                    </Button>
-                    <Button
-                      style={{ marginLeft: 16 }}
-                      htmlType="button"
-                      onClick={onReset}
-                    >
-                      Reset
-                    </Button>
-                  </Form.Item>
-                </Form>
-              </Col>
-            </Row>
-          </div>
-        ) : (
-          ''
-        )}
-      </Wrapper>
-    </Container>
-  );
+                                    <Form.Item
+                                        // {...tailLayout}
+                                    >
+                                        <Button type="primary" htmlType="submit">
+											Submit
+                                        </Button>
+                                        <Button
+                                            style={{ marginLeft: 16 }}
+                                            htmlType="button"
+                                            onClick={onReset}
+                                        >
+											Reset
+                                        </Button>
+                                    </Form.Item>
+                                </Form>
+                            </Col>
+                        </Row>
+                    </div>
+                ) : (
+                    ''
+                )}
+            </Wrapper>
+        </Container>
+    );
 };
 
 export default UploadArticle;

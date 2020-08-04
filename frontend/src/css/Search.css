@@ -1,5 +1,15 @@
+.searchOption {
+	margin-top: 5px;
+}
+
+.searchOption .ant-radio-group {
+	margin-left: 10px;
+}
+
 .result {
-  color: black;
-  margin-top: 20px;
-  display: block;
+	height: fit-content;
+}
+
+.result > .ant-card-body {
+	padding: 0;
 }
