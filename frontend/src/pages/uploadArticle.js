@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import {
-  Upload,
-  Button,
-  message,
-  Form,
-  Input,
-  InputNumber,
-  DatePicker,
-  Row,
-  Col,
-  Layout,
-  Menu
+    Upload,
+    Button,
+    message,
+    Form,
+    Input,
+    InputNumber,
+    DatePicker,
+    Row,
+    Col,
+    Layout,
+    Menu
 } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
@@ -146,134 +146,135 @@ const UploadArticle = () => {
                     disabled={fileList.length === 0}
                     loading={uploading}
                     style={{ marginTop: 16 }}
-                >
-                  {/* article_title */}
-                  <Form.Item
-                    name="article_title"
-                    label="Article Title"
-                    rules={[
-                      {
-                        required: true
-                      }
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
+                />  
+                <div> 
+                    <Row>
+                        <Col>
+                            <Form>
+                                {/* article_title */}
+                                <Form.Item
+                                    name="article_title"
+                                    label="Article Title"
+                                    rules={[
+                                        {
+                                            required: true
+                                        }
+                                    ]}
+                                >
+                                    <Input />
+                                </Form.Item>
 
-                  {/* page_num */}
-                  <Form.Item
-                    name="page_num"
-                    label="Page Number"
-                    rules={[
-                      {
-                        required: true
-                      }
-                    ]}
-                  >
-                    <InputNumber />
-                  </Form.Item>
+                                {/* page_num */}
+                                <Form.Item
+                                    name="page_num"
+                                    label="Page Number"
+                                    rules={[
+                                        {
+                                            required: true
+                                        }
+                                    ]}
+                                >
+                                    <InputNumber />
+                                </Form.Item>
 
-                  {/* publication_title */}
-                  <Form.Item
-                    name="publication_title"
-                    label="Publication Title"
-                    rules={[
-                      {
-                        required: true
-                      }
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
+                                {/* publication_title */}
+                                <Form.Item
+                                    name="publication_title"
+                                    label="Publication Title"
+                                    rules={[
+                                        {
+                                            required: true
+                                        }
+                                    ]}
+                                >
+                                    <Input />
+                                </Form.Item>
 
-                  {/* newspaper_title */}
-                  <Form.Item
-                    name="newspaper_title"
-                    label="Newspaper Title"
-                    rules={[
-                      {
-                        required: true
-                      }
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-                                    {/* article_title */}
-                                    <Form.Item
-                                        name="article_title"
-                                        label="Article Title"
-                                        rules={[
-                                            {
-                                                required: true
-                                            }
-                                        ]}
-                                    >
-                                        <Input />
-                                    </Form.Item>
+                                {/* newspaper_title */}
+                                <Form.Item
+                                    name="newspaper_title"
+                                    label="Newspaper Title"
+                                    rules={[
+                                        {
+                                            required: true
+                                        }
+                                    ]}
+                                >
+                                    <Input />
+                                </Form.Item>
+                                {/* article_title */}
+                                <Form.Item
+                                    name="article_title"
+                                    label="Article Title"
+                                    rules={[
+                                        {
+                                            required: true
+                                        }
+                                    ]}
+                                >
+                                    <Input />
+                                </Form.Item>
 
-                  {/* date_pulished */}
+                                {/* date_pulished */}
 
-                  <Form.Item
-                    name="date_pulished"
-                    label="Date Pulished"
-                    rules={[
-                      {
-                        required: true
-                      }
-                    ]}
-                  >
-                    <DatePicker
-                      defaultValue={moment()}
-                      format={dateFormatList}
-                    />{' '}
-                  </Form.Item>
+                                <Form.Item
+                                    name="date_pulished"
+                                    label="Date Pulished"
+                                    rules={[
+                                        {
+                                            required: true
+                                        }
+                                    ]}
+                                >
+                                    <DatePicker
+                                        defaultValue={moment()}
+                                        format={dateFormatList}
+                                    />{' '}
+                                </Form.Item>
 
-                  {/* article_content */}
+                                {/* article_content */}
 
-                  <Form.Item
-                    name="article_content"
-                    label="Article Content"
-                    rules={[
-                      {
-                        required: true
-                      }
-                    ]}
-                  >
-                    <TextArea rows={10} />
-                  </Form.Item>
-                                    <Form.Item
-                                        name="article_content"
-                                        label="Article Content"
-                                        rules={[
-                                            {
-                                                required: true
-                                            }
-                                        ]}
-                                    >
-                                        <TextArea rows={4} />
-                                    </Form.Item>
+                                <Form.Item
+                                    name="article_content"
+                                    label="Article Content"
+                                    rules={[
+                                        {
+                                            required: true
+                                        }
+                                    ]}
+                                >
+                                    <TextArea rows={10} />
+                                </Form.Item>
+                                <Form.Item
+                                    name="article_content"
+                                    label="Article Content"
+                                    rules={[
+                                        {
+                                            required: true
+                                        }
+                                    ]}
+                                >
+                                    <TextArea rows={4} />
+                                </Form.Item>
 
-                                    <Form.Item
-                                        // {...tailLayout}
-                                    >
-                                        <Button type="primary" htmlType="submit">
+                                <Form.Item
+                                    // {...tailLayout}
+                                >
+                                    <Button type="primary" htmlType="submit">
 											Submit
-                                        </Button>
-                                        <Button
-                                            style={{ marginLeft: 16 }}
-                                            htmlType="button"
-                                            onClick={onReset}
-                                        >
+                                    </Button>
+                                    <Button
+                                        style={{ marginLeft: 16 }}
+                                        htmlType="button"
+                                        onClick={onReset}
+                                    >
 											Reset
-                                        </Button>
-                                    </Form.Item>
-                                </Form>
-                            </Col>
-                        </Row>
-                    </div>
-                ) : (
-                    ''
-                )}
+                                    </Button>
+                                </Form.Item>
+                            </Form>
+                        </Col>
+                    </Row>
+                </div>
             </Wrapper>
         </Container>
     );
