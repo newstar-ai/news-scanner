@@ -1,10 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Upload, Button, message, Form, Input, InputNumber, Row, Col } from 'antd';
+import {
+  Upload,
+  Button,
+  message,
+  Form,
+  Input,
+  InputNumber,
+  DatePicker,
+  Row,
+  Col,
+  Layout,
+  Menu
+} from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import moment from 'moment';
 
 const { TextArea } = Input;
+const { Header, Content, Footer } = Layout;
+
+const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
 
 export const Container = styled.div`
   display: block;
@@ -18,8 +34,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  width: 900px;
-  height: 40%;
+  width: 100%;
 `;
 
 const Title = styled.h1`
@@ -132,64 +147,57 @@ const UploadArticle = () => {
                     loading={uploading}
                     style={{ marginTop: 16 }}
                 >
-                    {uploading ? 'Uploading' : 'Start Upload'}
-                </Button>
+                  {/* article_title */}
+                  <Form.Item
+                    name="article_title"
+                    label="Article Title"
+                    rules={[
+                      {
+                        required: true
+                      }
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
 
-                {imgData ? (
-                    <div style={{ marginTop: 32 }}>
-                        <Row gutter={16}>
-                            <Col span={12}>
-                                <img src={`http://${imgData.img_url}`} alt=''/>
-                            </Col>
-                            <Col span={12}>
-                                <Form
-                                    initialValues={{
-                                        article_title: imgData.article_title,
-                                        article_content: imgData.article_content
-                                    }}
-                                    layout="vertical"
-                                    form={form}
-                                    onFinish={onFinish}
-                                >
-                                    {/* #1 newspaper_title */}
-                                    <Form.Item
-                                        name="newspaper_title"
-                                        label="Newspaper Title"
-                                        rules={[
-                                            {
-                                                required: true
-                                            }
-                                        ]}
-                                    >
-                                        <Input />
-                                    </Form.Item>
+                  {/* page_num */}
+                  <Form.Item
+                    name="page_num"
+                    label="Page Number"
+                    rules={[
+                      {
+                        required: true
+                      }
+                    ]}
+                  >
+                    <InputNumber />
+                  </Form.Item>
 
-                                    {/* publication_title */}
-                                    <Form.Item
-                                        name="publication_title"
-                                        label="Publication Title"
-                                        rules={[
-                                            {
-                                                required: true
-                                            }
-                                        ]}
-                                    >
-                                        <Input />
-                                    </Form.Item>
+                  {/* publication_title */}
+                  <Form.Item
+                    name="publication_title"
+                    label="Publication Title"
+                    rules={[
+                      {
+                        required: true
+                      }
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
 
-                                    {/* page_num */}
-                                    <Form.Item
-                                        name="page_num"
-                                        label="Page Number"
-                                        rules={[
-                                            {
-                                                required: true
-                                            }
-                                        ]}
-                                    >
-                                        <InputNumber />
-                                    </Form.Item>
-
+                  {/* newspaper_title */}
+                  <Form.Item
+                    name="newspaper_title"
+                    label="Newspaper Title"
+                    rules={[
+                      {
+                        required: true
+                      }
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
                                     {/* article_title */}
                                     <Form.Item
                                         name="article_title"
@@ -203,21 +211,36 @@ const UploadArticle = () => {
                                         <Input />
                                     </Form.Item>
 
-                                    {/* article_author */}
-                                    <Form.Item
-                                        name="article_author"
-                                        label="Article Author"
-                                        rules={[
-                                            {
-                                                required: true
-                                            }
-                                        ]}
-                                    >
-                                        <Input />
-                                    </Form.Item>
+                  {/* date_pulished */}
 
-                                    {/* article_content */}
+                  <Form.Item
+                    name="date_pulished"
+                    label="Date Pulished"
+                    rules={[
+                      {
+                        required: true
+                      }
+                    ]}
+                  >
+                    <DatePicker
+                      defaultValue={moment()}
+                      format={dateFormatList}
+                    />{' '}
+                  </Form.Item>
 
+                  {/* article_content */}
+
+                  <Form.Item
+                    name="article_content"
+                    label="Article Content"
+                    rules={[
+                      {
+                        required: true
+                      }
+                    ]}
+                  >
+                    <TextArea rows={10} />
+                  </Form.Item>
                                     <Form.Item
                                         name="article_content"
                                         label="Article Content"

@@ -1,18 +1,23 @@
-import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import React, { Fragment } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { createGlobalStyle } from 'styled-components';
+import reset from './css/constants/reset';
 
-import Homepage from './pages/homepage';
-import UploadArticle from './pages/uploadArticle';
-import { Layout } from 'antd';
+import store from './store';
+import history from './utils/history';
+import BasicLayout from './pages/layout';
+const GlobalStyle = createGlobalStyle`${reset}`;
 
-const { Content } = Layout;
 const App = () => (
-  <Content>
-    <Switch>
-      <Route exact path="/" component={Homepage} />
-      <Route exact path="/upload" component={UploadArticle} />
-    </Switch>
-  </Content>
+  <Fragment>
+    <Provider store={store}>
+      <BrowserRouter history={history}>
+        <BasicLayout />
+      </BrowserRouter>
+    </Provider>
+    <GlobalStyle />
+  </Fragment>
 );
 
 export default App;
