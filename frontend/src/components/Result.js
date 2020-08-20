@@ -45,7 +45,7 @@ const Result = ({
           </p>
         </Col>
         <Col span={4}>
-          <img src={`//${artLink}`} alt="News" style={{ width: '100%' }} />
+          {/* <img src={`//${artLink}`} alt="News" style={{ width: '100%' }} /> */}
         </Col>
       </Row>
     </Card>
