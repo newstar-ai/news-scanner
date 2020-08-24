@@ -6,6 +6,7 @@ from elasticsearch.exceptions import NotFoundError
 from werkzeug.utils import secure_filename
 
 import json
+import uuid
 
 article_bp = Blueprint('article_blueprint', __name__)
 
@@ -28,7 +29,8 @@ def predict():
     img = request.files['img']
     # Process image of an article
     if img and allowed_file(img.filename):
-        filename = secure_filename(img.filename)
+        # filename = secure_filename(img.filename)
+        filename = str(uuid.uuid4().hex) + '.' + img.filename.rsplit('.', 1)[1].lower()
         out_path_url, img_url = save_image_upload(current_app, img, filename)
         
         data = {}
