@@ -19,7 +19,7 @@ def validateArticleData(jsonData, schema_type):
 def search_atcl_querry(field, data_search):
 	query = {
 		"query": {
-			"match": {
+			"match_phrase": {
 				f"article_info.{field}": data_search
 			}
 		}
