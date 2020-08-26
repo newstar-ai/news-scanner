@@ -4,6 +4,7 @@ import { Card, Row, Col } from 'antd';
 import '../css/Result.css';
 import LinesEllipsis from 'react-lines-ellipsis';
 import { Link } from 'react-router-dom';
+import Highlighter from "react-highlight-words";
 
 const Result = ({
   id,
@@ -27,13 +28,28 @@ const Result = ({
       <Row style={{ height: '100%' }}>
         <Col span={20}>
           <Link to={{pathname: `article/${id}`, searchInput: searchInput}}>
-            <h2 style={{ fontSize: 20, fontWeight: 600 }}>{artTitle}</h2>
+            <h2 style={{ fontSize: 20, fontWeight: 600 }}>
+              <Highlighter
+                highlightClassName="hl-class"
+                searchWords={[searchInput]}
+                autoEscape={true}
+                textToHighlight={artTitle}
+              />  
+            </h2>
           </Link>
 
           <h3>
             #{pageNum} - {pubTitle} - {newsTitle}
           </h3>
-          <h3>{artAuthor} - 8/7/2020</h3>
+          <h3>
+            {/* {artAuthor} */}
+            <Highlighter
+                highlightClassName="hl-class"
+                searchWords={[searchInput]}
+                autoEscape={true}
+                textToHighlight={artAuthor}
+            />
+          </h3>
           <p
             style={{
               whiteSpace: 'nowrap',
@@ -42,7 +58,13 @@ const Result = ({
               fontSize: 16
             }}
           >
-            {artContent}
+            {/* {artContent} */}
+            <Highlighter
+                highlightClassName="hl-class"
+                searchWords={[searchInput]}
+                autoEscape={true}
+                textToHighlight={artContent}
+            />
           </p>
         </Col>
         <Col span={4}>

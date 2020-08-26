@@ -59,14 +59,15 @@ const Article = props => {
           </h3>
           <hr />
           {console.log(props.location.searchInput)}
-          <Highlighter
-            highlightClassName="hl-class"
-            // searchWords={["gia"]}
-            searchWords={[props.location.searchInput]}
-            autoEscape={true}
-            textToHighlight={article.article_info.article_content}
-          />
-          <p>{article.article_info.article_content}</p>
+          <p>
+            <Highlighter
+              highlightClassName="hl-class"
+              // searchWords={["gia"]}
+              searchWords={[props.location.searchInput]}
+              autoEscape={true}
+              textToHighlight={article.article_info.article_content}
+            />
+          </p>
         </>
       ) : (
         ''
