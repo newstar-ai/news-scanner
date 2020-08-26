@@ -1,49 +1,48 @@
-from flask import Blueprint, request, jsonify
-# from OCR.text_detect import detect_text
+from flask import Blueprint, request, jsonify, current_app, url_for 
+from OCR.text_detect import detect_text
 from .utils import *
 from .schemas import *
 from elasticsearch.exceptions import NotFoundError
 from werkzeug.utils import secure_filename
 
 import json
+import uuid
 
 article_bp = Blueprint('article_blueprint', __name__)
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
+
+dev_mode = False
 
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # Convert text from img
-
-
 @article_bp.route('/convert_text', methods=['GET', 'POST'])
 def predict():
     if 'img' not in request.files:
         result = jsonify({'message': 'No image part in the request'})
         result.status_code = 400
+        return result
     # Request image file
     img = request.files['img']
-    # No file selected
-    if img.filename == '':
-        result = jsonify({'message': 'No image has been selected'})
-        result.status_code = 400
     # Process image of an article
     if img and allowed_file(img.filename):
-        filename = secure_filename(img.filename)
-        # data = detect_text(img)
-        data = {
-            'Title': 'fake title',
-            'Texts': 'fake content'
-        }
+        # filename = secure_filename(img.filename)
+        filename = str(uuid.uuid4().hex) + '.' + img.filename.rsplit('.', 1)[1].lower()
+        out_path_url, img_url = save_image_upload(current_app, img, filename)
+        
         data = {}
-        data['image_name'] = filename
-        data['paper_name'] = request.form['paper_name']
-        data['publication'] = request.form['publication']
-        data['page_num'] = request.form['page_num']
+        data['img_url'] = img_url
+        data['local_url'] = out_path_url
+        # data['image_name'] = filename
+        # data['paper_name'] = request.form["paper_name"]
+        # data['publication'] = request.form["publication"]
+        # data['page_num'] = request.form["page_num"]
+
         if dev_mode == False:
-            ai_data = detect_text(img)
+            ai_data = detect_text(out_path_url)
         else:
             ai_data = {"article_title": "Development Title",
                        "article_content": "Development Content"}
@@ -51,7 +50,7 @@ def predict():
         result = json.dumps(data, ensure_ascii=False, indent=4)
     # Not an image file
     else:
-        result = jsonify({'message': 'File extension is not allowed'})
+        result = jsonify({'message': 'File extension is not allowed or no image has been selected'})
         result.status_code = 400
     return result
 
@@ -173,10 +172,11 @@ def update_article(atcl_id):
 data parse must be something like this
 {
     "article_info": {
-        "article_title": "fake",
-        "article_author": "fal",
-        "article_content": "abo",
-        "article_url_local": "uss"
+        "article_title": "title 4",
+        "article_author": "author 4",
+        "article_content": "content 4",
+        "article_url_local": "/data/img/on/local",
+        "article_url_web": "http://serverhost/example/path"
     },
     "publication_info": {
         "publication_title": "@2",
@@ -187,13 +187,11 @@ data parse must be something like this
     }
 }
 '''
-
-
-@article_bp.route('/upload/<atcl_id>', methods=['POST'])
-def upload_article(atcl_id):
+@article_bp.route('/upload/', methods=['POST'])
+def upload_article():
     data = request.json
     if validateArticleData(data, article_upload_schema):
-        es.index(index=newspaper_index, id=atcl_id, body=data)
+        es.index(index=newspaper_index, body=data)
         result = "upload sucess!"
     else:
         result = "upload failed, check your data and upload again"
@@ -202,3 +200,11 @@ def upload_article(atcl_id):
         "message": result
     }
     return json.dumps(result_response)
+
+#Get all article data 
+@article_bp.route('/get_all', methods=['GET'])
+def get_all():
+    result = es.search(index=newspaper_index, body={"query": {"match_all": {}}})
+    result = json.dumps(result)
+
+    return result

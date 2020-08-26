@@ -1,31 +1,24 @@
-import React from 'react';
-import styled from 'styled-components';
-import Homepage from './pages/homepage';
+import React, { Fragment } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { createGlobalStyle } from 'styled-components';
+import reset from './css/constants/reset';
 
-const Container = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100vh;
-    font-family: 'Open Sans', sans-serif;
-`;
+import store from './store';
+import history from './utils/history';
+import BasicLayout from './pages/layout';
 
-const Wrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-    width: 500px;
-    height: 40%;
-`;
+const GlobalStyle = createGlobalStyle`${reset}`;
 
 const App = () => (
-    <Container>
-        <Wrapper>
-            <Homepage />
-        </Wrapper>
-    </Container>
+    <Fragment>
+        <Provider store={store}>
+            <BrowserRouter history={history}>
+                <BasicLayout />
+            </BrowserRouter>
+        </Provider>
+        <GlobalStyle />
+    </Fragment>
 );
 
 export default App;

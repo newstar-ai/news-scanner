@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "cross-env": "^7.0.2"
+  },
+  "devDependencies": {
+    "husky": "^4.2.5"
+  }
+}
