@@ -16,11 +16,23 @@ def validateArticleData(jsonData, schema_type):
 		return False 
 	return True
 
-def search_atcl_querry(field, data_search):
+def search_atcl_querry(field, data_search, start_date, end_date):
 	query = {
 		"query": {
-			"match_phrase": {
-				f"article_info.{field}": data_search
+			"bool": {
+				"must": [
+					{
+						"match_phrase": {f"article_info.{field}": data_search}
+					},
+					{
+						"range": {
+							"publication_info.publish_date": {
+								"gte": start_date,
+								"lte": end_date
+							}
+						}
+					}
+				]
 			}
 		}
 	}

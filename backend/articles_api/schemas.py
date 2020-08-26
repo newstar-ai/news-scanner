@@ -14,7 +14,7 @@ article_upload_schema = {
 		},
 		"publication_info": {
 			"properties": {
-				"publication_title": {"type": "string"},
+				"publish_date": {"type": "string"},
 				"page_num": {"type": "number"}
 			},
 			"required": ["publication_title", "page_num"],
@@ -46,26 +46,32 @@ article_update_schema = {
 article_search_title_schema = {
 	"type": "object",
 	"properties": {
-		"title": {"type":"string"}
+		"title": {"type":"string"},
+		"start_date": {"type":"string"},
+		"end_date": {"type":"string"}
 	},
-	"required": ["title"],
+	"required": ["title", "start_date", "end_date"],
 	"additionalProperties": False
 }
 
 article_search_author_schema = {
 	"type": "object",
 	"properties": {
-		"author": {"type":"string"}
+		"author": {"type":"string"},
+		"start_date": {"type":"string"},
+		"end_date": {"type":"string"}
 	},
-	"required": ["author"],
+	"required": ["author", "start_date", "end_date"],
 	"additionalProperties": False
 }
 
 article_search_content_schema = {
 	"type": "object",
 	"properties": {
-		"content": {"type":"string"}
+		"content": {"type":"string"},
+		"start_date": {"type":"string"},
+		"end_date": {"type":"string"}
 	},
-	"required": ["content"],
+	"required": ["content", "start_date", "end_date"],
 	"additionalProperties": False
 }
