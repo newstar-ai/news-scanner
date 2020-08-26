@@ -14,7 +14,8 @@ const Result = ({
   pageNum,
   pubTitle,
   pubDate,
-  newsTitle
+  newsTitle,
+  searchInput
 }) => {
   return (
     <Card
@@ -25,7 +26,7 @@ const Result = ({
     >
       <Row style={{ height: '100%' }}>
         <Col span={20}>
-          <Link to={`article/${id}`}>
+          <Link to={{pathname: `article/${id}`, searchInput: searchInput}}>
             <h2 style={{ fontSize: 20, fontWeight: 600 }}>{artTitle}</h2>
           </Link>
 

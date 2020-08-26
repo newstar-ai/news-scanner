@@ -92,6 +92,7 @@ const SearchComponent = () => {
                 pubTitle={item._source.publication_info.publication_title}
                 pageNum={item._source.publication_info.page_num}
                 newsTitle={item._source.newspaper_info.newspaper_title}
+                searchInput={searchInput}
               />
             ))
           : 'Not Found'}
