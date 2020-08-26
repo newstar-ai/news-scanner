@@ -62,7 +62,7 @@ def search_atcl_by_title():
     data_search = request.json
     search_field = "article_title"
     if validateArticleData(data_search, article_search_title_schema):
-        body_search = search_atcl_querry(search_field, data_search['title'])
+        body_search = search_atcl_querry(search_field, data_search['title'], data_search['start_date'], data_search['end_date'])
         data_result = es.search(index=newspaper_index, body=body_search)
 
     else:
@@ -80,7 +80,7 @@ def search_atcl_by_author():
     data_search = request.json
     search_field = "article_author"
     if validateArticleData(data_search, article_search_author_schema):
-        body_search = search_atcl_querry(search_field, data_search['author'])
+        body_search = search_atcl_querry(search_field, data_search['author'], data_search['start_date'], data_search['end_date'])
         data_result = es.search(index=newspaper_index, body=body_search)
 
     else:
@@ -98,7 +98,7 @@ def search_atcl_by_content():
     data_search = request.json
     search_field = "article_content"
     if validateArticleData(data_search, article_search_content_schema):
-        body_search = search_atcl_querry(search_field, data_search['content'])
+        body_search = search_atcl_querry(search_field, data_search['content'], data_search['start_date'], data_search['end_date'])
         data_result = es.search(index=newspaper_index, body=body_search)
 
     else:
@@ -146,7 +146,7 @@ def update_article(atcl_id):
             id=atcl_id,
             body={
                 "script": {
-                    "source": "ctx._source.article_info.article_title=params.title;\
+                    "source": "ctx._source.article_info.article_title=params.Title;\
                                ctx._source.article_info.article_author=params.author;\
                                ctx._source.article_info.article_content=params.content",
                     "lang": "painless",
@@ -176,10 +176,10 @@ data parse must be something like this
         "article_author": "author 4",
         "article_content": "content 4",
         "article_url_local": "/data/img/on/local",
-        "article_url_web": "http://serverhost/example/path"
+        "article_url_web": "http://serverhost/example/path",
     },
     "publication_info": {
-        "publication_title": "@2",
+        "publish_date": "dd-mm-yyyyy",
         "page_num": 12
     },
     "newspaper_info": {
