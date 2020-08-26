@@ -34,9 +34,6 @@ def search_atcl_querry(field, data_search, start_date, end_date):
 					}
 				]
 			}
-			"match_phrase": {
-				f"article_info.{field}": data_search
-			}
 		}
 	}
 	return query
