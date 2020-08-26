@@ -5,6 +5,7 @@ import '../css/Result.css';
 import LinesEllipsis from 'react-lines-ellipsis';
 import { Link } from 'react-router-dom';
 import Highlighter from "react-highlight-words";
+import Moment from "moment";
 
 const Result = ({
   id,
@@ -13,7 +14,6 @@ const Result = ({
   artContent,
   artLink,
   pageNum,
-  pubTitle,
   pubDate,
   newsTitle,
   searchInput
@@ -39,7 +39,7 @@ const Result = ({
           </Link>
 
           <h3>
-            #{pageNum} - {pubTitle} - {newsTitle}
+            #{pageNum} - {Moment(pubDate).format("DD MMM YYYY")} - {newsTitle}
           </h3>
           <h3>
             {/* {artAuthor} */}

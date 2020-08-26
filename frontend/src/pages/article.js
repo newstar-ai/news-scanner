@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Highlighter from "react-highlight-words";
-import '../css/article.css'
+import '../css/article.css';
+import Moment from "moment";
 
 const Title = styled.h1`
   color: black;
@@ -46,7 +47,7 @@ const Article = props => {
           </h2>
           <h3>
             #{article.publication_info.page_num} -{' '}
-            {article.publication_info.publication_title} -{' '}
+            {Moment(article.publication_info.publish_date).format("DD MMM YYYY")} -{' '}
             {article.newspaper_info.newspaper_title}
           </h3>
           <h3>Tác giả: 

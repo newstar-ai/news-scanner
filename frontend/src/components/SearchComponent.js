@@ -89,7 +89,7 @@ const SearchComponent = () => {
                 artAuthor={item._source.article_info.article_author}
                 artContent={item._source.article_info.article_content}
                 artLink={item._source.article_info.article_url_web}
-                pubTitle={item._source.publication_info.publication_title}
+                pubDate={item._source.publication_info.publish_date}
                 pageNum={item._source.publication_info.page_num}
                 newsTitle={item._source.newspaper_info.newspaper_title}
                 searchInput={searchInput}
