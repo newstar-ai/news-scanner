@@ -17,7 +17,7 @@ article_upload_schema = {
 				"publish_date": {"type": "string"},
 				"page_num": {"type": "number"}
 			},
-			"required": ["publication_title", "page_num"],
+			"required": ["publish_date", "page_num"],
 			"additionalProperties": False
 		},
 		"newspaper_info": {
