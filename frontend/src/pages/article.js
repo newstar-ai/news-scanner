@@ -59,7 +59,6 @@ const Article = props => {
             />
           </h3>
           <hr />
-          {console.log(props.location.searchInput)}
           <p>
             <Highlighter
               highlightClassName="hl-class"

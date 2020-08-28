@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Input, Radio, Card } from 'antd';
+import Moment from 'moment';
+import { Input, Radio, Card, DatePicker } from 'antd';
 import '../css/Search.css';
 import { Container } from '../pages/create';
 import Result from './Result';
+
 
 const { Search } = Input;
 
@@ -11,8 +13,9 @@ const SearchComponent = () => {
   const [news, setNews] = useState([]);
   const [searchInput, setSearchInput] = useState('');
   const [searchOption, setSearchOption] = useState('content');
+  const [dateRange, setDateRange ] = useState([])
   const [loading, setLoading] = useState(true);
-  const requestOptions = {};
+  let requestOptions = {};
 
   const options = [
     { label: 'title', value: 'title' },
@@ -27,6 +30,10 @@ const SearchComponent = () => {
   const handleRequest = e => {
     setSearchOption(e.target.value);
   };
+
+  const handleDateChange = e => {
+    setDateRange([Moment(e[0]._d).format('YYYY-MM-DD'), Moment(e[1]._d).format('YYYY-MM-DD')])
+  }
 
   //   const getAll = () => {
   //     axios
@@ -43,8 +50,11 @@ const SearchComponent = () => {
 
   const getSearch = async () => {
     setLoading(true);
-    requestOptions[searchOption] = searchInput;
-
+    requestOptions = {
+      [searchOption]: searchInput,
+      'start_date': dateRange[0] ? dateRange[0] : '',
+      'end_date': dateRange[1] ? dateRange[1] : ''
+    }
     const response = await axios.post(
       `http://10.2.50.231:5000/article/search/${searchOption}`,
       requestOptions
@@ -73,6 +83,15 @@ const SearchComponent = () => {
           value={searchOption}
           onChange={handleRequest}
         />
+        <Input.Group 
+          compact
+          className="search-daterange"
+        >
+          <div className="daterange-title">Date range</div>
+          <DatePicker.RangePicker 
+            style={{ width: '100%' }} 
+            onChange={handleDateChange}/>
+        </Input.Group>
       </div>
       <Card
         loading={loading}
@@ -89,7 +108,7 @@ const SearchComponent = () => {
                 artAuthor={item._source.article_info.article_author}
                 artContent={item._source.article_info.article_content}
                 artLink={item._source.article_info.article_url_web}
-                pubDate={item._source.publication_info.publish_date}
+                pubTitle={item._source.publication_info.publication_title}
                 pageNum={item._source.publication_info.page_num}
                 newsTitle={item._source.newspaper_info.newspaper_title}
                 searchInput={searchInput}
