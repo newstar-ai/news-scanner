@@ -15,7 +15,7 @@ import {
 } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
-import moment from 'moment';
+import Moment from 'moment';
 
 const { TextArea } = Input;
 const { Header, Content, Footer } = Layout;
@@ -57,13 +57,14 @@ const ArticlePublish = props => {
                 article_url_web: props.imgData.img_url
             },
             publication_info: {
-                publication_title: values.publication_title,
+                publish_date: Moment(values.publish_date._d).format('YYYY-MM-DD'),
                 page_num: values.page_num
             },
             newspaper_info: {
                 newspaper_title: values.newspaper_title
             }
         };
+
         axios
             .post('http://10.2.50.231:5000/article/upload/', obj)
             .then(response => {
@@ -111,18 +112,18 @@ const ArticlePublish = props => {
                             >
                                 <Input />
                             </Form.Item>
-
-                            {/* publication_title */}
+                            
+                            {/* publish_date */}
                             <Form.Item
-                                name="publication_title"
-                                label="Publication Title"
+                                name="publish_date"
+                                label="Publish Date"
                                 rules={[
                                     {
                                         required: true
                                     }
                                 ]}
                             >
-                                <Input />
+                                <DatePicker format='YYYY-MM-DD' />
                             </Form.Item>
 
                             {/* page_num */}
