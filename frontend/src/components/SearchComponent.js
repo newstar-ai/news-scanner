@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import Moment from 'moment';
 import { Input, Radio, Card, DatePicker } from 'antd';
@@ -6,14 +6,13 @@ import '../css/Search.css';
 import { Container } from '../pages/create';
 import Result from './Result';
 
-
 const { Search } = Input;
 
 const SearchComponent = () => {
   const [news, setNews] = useState([]);
   const [searchInput, setSearchInput] = useState('');
   const [searchOption, setSearchOption] = useState('content');
-  const [dateRange, setDateRange ] = useState([])
+  const [dateRange, setDateRange] = useState([]);
   const [loading, setLoading] = useState(true);
   let requestOptions = {};
 
@@ -32,8 +31,11 @@ const SearchComponent = () => {
   };
 
   const handleDateChange = e => {
-    setDateRange([Moment(e[0]._d).format('YYYY-MM-DD'), Moment(e[1]._d).format('YYYY-MM-DD')])
-  }
+    setDateRange([
+      Moment(e[0]._d).format('YYYY-MM-DD'),
+      Moment(e[1]._d).format('YYYY-MM-DD')
+    ]);
+  };
 
   //   const getAll = () => {
   //     axios
@@ -52,9 +54,10 @@ const SearchComponent = () => {
     setLoading(true);
     requestOptions = {
       [searchOption]: searchInput,
-      'start_date': dateRange[0] ? dateRange[0] : '',
-      'end_date': dateRange[1] ? dateRange[1] : ''
-    }
+      start_date: dateRange[0] ? dateRange[0] : '',
+      end_date: dateRange[1] ? dateRange[1] : ''
+    };
+    console.log(requestOptions);
     const response = await axios.post(
       `http://10.2.50.231:5000/article/search/${searchOption}`,
       requestOptions
@@ -83,14 +86,12 @@ const SearchComponent = () => {
           value={searchOption}
           onChange={handleRequest}
         />
-        <Input.Group 
-          compact
-          className="search-daterange"
-        >
+        <Input.Group compact className="search-daterange">
           <div className="daterange-title">Date range</div>
-          <DatePicker.RangePicker 
-            style={{ width: '100%' }} 
-            onChange={handleDateChange}/>
+          <DatePicker.RangePicker
+            style={{ width: '100%' }}
+            onChange={handleDateChange}
+          />
         </Input.Group>
       </div>
       <Card
