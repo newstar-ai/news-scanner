@@ -89,8 +89,8 @@ article_search_schema = {
 			},
 			"required": ["content", "title", "author"]
 		},
-		"start_date": {"type": "string"},
-		"end_date": {"type": "string"}
+		"start_date": {"type": ["string", "null"]},
+		"end_date": {"type": ["string", "null"]}
 	},
 	"required": ["keyword", "search_fields", "start_date", "end_date"],
 	"additionalProperties": False

@@ -107,7 +107,7 @@ def search_atcl_by_content():
     return data_result
 
 # Search with fields
-@article_bp.route('/search_with_fields', methods=['POST'])
+@article_bp.route('/search', methods=['POST'])
 def search_atcl_by_fileds():
     data_search = request.json
     if validateArticleData(data_search, article_search_schema):
