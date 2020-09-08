@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, current_app, url_for 
-# from OCR.text_detect import detect_text
+from OCR.text_detect import detect_text
 from .utils import *
 from .schemas import *
 from elasticsearch.exceptions import NotFoundError
@@ -12,7 +12,7 @@ article_bp = Blueprint('article_blueprint', __name__)
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
-dev_mode = True
+dev_mode = False
 
 
 def allowed_file(filename):
