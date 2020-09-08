@@ -9,7 +9,7 @@ from flask_cors import CORS
 
 app = Flask(__name__, static_url_path='',
             static_folder='static', template_folder='templates')
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 app.register_blueprint(article_bp, url_prefix='/article')
 
 UPLOAD_FOLDER_IMG = os.path.join(app.root_path, "static/img")
