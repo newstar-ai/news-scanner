@@ -9,11 +9,14 @@ import Result from './Result';
 const { Search } = Input;
 
 const SearchComponent = () => {
-  const [news, setNews] = useState([]);
+  const [news, setNews] = useState(null);
   const [searchInput, setSearchInput] = useState('');
   const [searchOption, setSearchOption] = useState('content');
-  const [dateRange, setDateRange] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [dateRange, setDateRange] = useState([
+    Moment().subtract(5, 'months'),
+    Moment()
+  ]);
+  const [loading, setLoading] = useState(false);
   let requestOptions = {};
 
   const options = [
@@ -62,7 +65,7 @@ const SearchComponent = () => {
       `http://10.2.50.231:5000/article/search/${searchOption}`,
       requestOptions
     );
-    console.log(response.data.hits.hits);
+
     setLoading(false);
     setNews(response.data.hits.hits);
   };
@@ -89,34 +92,37 @@ const SearchComponent = () => {
         <Input.Group compact className="search-daterange">
           <div className="daterange-title">Date range</div>
           <DatePicker.RangePicker
+            defaultValue={dateRange}
             style={{ width: '100%' }}
             onChange={handleDateChange}
           />
         </Input.Group>
       </div>
-      <Card
-        loading={loading}
-        bordered={false}
-        style={{ width: '100%' }}
-        className="result"
-      >
-        {news.length > 0
-          ? news.map(item => (
-              <Result
-                key={item._id}
-                id={item._id}
-                artTitle={item._source.article_info.article_title}
-                artAuthor={item._source.article_info.article_author}
-                artContent={item._source.article_info.article_content}
-                artLink={item._source.article_info.article_url_web}
-                pubDate={item._source.publication_info.publish_date}
-                pageNum={item._source.publication_info.page_num}
-                newsTitle={item._source.newspaper_info.newspaper_title}
-                searchInput={searchInput}
-              />
-            ))
-          : 'Not Found'}
-      </Card>
+      {!loading && news ? (
+        <>
+          <h3 style={{ fontWeight: 600 }}>{news.length} kết quả</h3>
+          {news.length > 0
+            ? news.map(item => (
+                <Result
+                  key={item._id}
+                  id={item._id}
+                  artTitle={item._source.article_info.article_title}
+                  artAuthor={item._source.article_info.article_author}
+                  artContent={item._source.article_info.article_content}
+                  artLink={item._source.article_info.article_url_web}
+                  pubDate={item._source.publication_info.publish_date}
+                  pageNum={item._source.publication_info.page_num}
+                  newsTitle={item._source.newspaper_info.newspaper_title}
+                  searchInput={searchInput}
+                />
+              ))
+            : 'not found'}
+        </>
+      ) : loading ? (
+        'loading'
+      ) : (
+        ''
+      )}
     </Container>
   );
 };

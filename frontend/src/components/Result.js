@@ -21,7 +21,7 @@ const Result = ({
     <Card
       className="item"
       hoverable
-      style={{ width: '100%' }}
+      style={{ width: '100%', marginTop: 0, marginBottom: 10 }}
       bodyStyle={{ height: '100%' }}
     >
       <Row style={{ height: '100%' }}>
