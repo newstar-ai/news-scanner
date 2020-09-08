@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, current_app, url_for 
-from OCR.text_detect import detect_text
+# from OCR.text_detect import detect_text
 from .utils import *
 from .schemas import *
 from elasticsearch.exceptions import NotFoundError
@@ -12,7 +12,7 @@ article_bp = Blueprint('article_blueprint', __name__)
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
-dev_mode = False
+dev_mode = True
 
 
 def allowed_file(filename):
@@ -47,6 +47,7 @@ def predict():
             ai_data = {"article_title": "Development Title",
                        "article_content": "Development Content"}
         data.update(ai_data)
+        data['article_words_count'] = len(data['article_content'].split())
         result = json.dumps(data, ensure_ascii=False, indent=4)
     # Not an image file
     else:
@@ -91,8 +92,6 @@ def search_atcl_by_author():
     return data_result
 
 # Search_article_by content
-
-
 @article_bp.route('/search/content', methods=['POST'])
 def search_atcl_by_content():
     data_search = request.json
@@ -100,7 +99,21 @@ def search_atcl_by_content():
     if validateArticleData(data_search, article_search_content_schema):
         body_search = search_atcl_querry(search_field, data_search['content'], data_search['start_date'], data_search['end_date'])
         data_result = es.search(index=newspaper_index, body=body_search)
+    else:
+        data_result = {
+            "message": "Search failed, check you parsing data again"
+        }
+    data_result = json.dumps(data_result, ensure_ascii=False, indent=4)
+    return data_result
 
+# Search with fields
+@article_bp.route('/search_with_fields', methods=['POST'])
+def search_atcl_by_fileds():
+    data_search = request.json
+    if validateArticleData(data_search, article_search_schema):
+        body_search = search_atcl_query_option(data_search['search_fields'], data_search['keyword'], 
+            data_search['start_date'], data_search['end_date'])
+        data_result = es.search(index=newspaper_index, body=body_search)
     else:
         data_result = {
             "message": "Search failed, check you parsing data again"
@@ -109,8 +122,6 @@ def search_atcl_by_content():
     return data_result
 
 # Get article from id
-
-
 @article_bp.route('/get/<atcl_id>', methods=['GET'])
 def get_article(atcl_id):
     try:
@@ -135,8 +146,6 @@ data parse must be something like this
     "content": "new"
 }
 '''
-
-
 @article_bp.route('/update/<atcl_id>', methods=['POST'])
 def update_article(atcl_id):
     data = request.json
@@ -177,9 +186,10 @@ data parse must be something like this
         "article_content": "content 4",
         "article_url_local": "/data/img/on/local",
         "article_url_web": "http://serverhost/example/path",
+        "words_count": 2
     },
     "publication_info": {
-        "publish_date": "dd-mm-yyyyy",
+        "publication_title": "@2",
         "page_num": 12
     },
     "newspaper_info": {
