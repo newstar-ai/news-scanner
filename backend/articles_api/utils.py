@@ -38,6 +38,37 @@ def search_atcl_querry(field, data_search, start_date, end_date):
 	}
 	return query
 
+def search_atcl_query_option(field_search, keyword, start_date, end_date):
+	queries = []
+	for field in field_search:
+		if field_search[field]: 
+			phrase = {
+				"match_phrase_prefix": {f"article_info.article_{field}": keyword}
+			}
+			queries.append(phrase)
+	query_body = {
+		"query": {
+			"bool": {
+				"must": [
+					{
+						"dis_max": {
+							"queries": queries
+						}
+					},
+					{
+						"range": {
+							"publication_info.publish_date": {
+								"gte": start_date,
+								"lte": end_date
+							}
+						}
+					}
+				]
+			}
+		}
+	}
+	return query_body
+
 def save_image_upload(current_app, img, filename):
 	# Make directory
 	today_date = date.today().strftime('%Y-%b-%d')
