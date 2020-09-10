@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, current_app, url_for 
-from OCR.text_detect import detect_text
+# from OCR.text_detect import detect_text
 from .utils import *
 from .schemas import *
 from elasticsearch.exceptions import NotFoundError
@@ -12,7 +12,7 @@ article_bp = Blueprint('article_blueprint', __name__)
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
-dev_mode = False
+dev_mode = True
 
 
 def allowed_file(filename):
@@ -111,9 +111,16 @@ def search_atcl_by_content():
 def search_atcl_by_fileds():
     data_search = request.json
     if validateArticleData(data_search, article_search_schema):
-        body_search = search_atcl_query_option(data_search['search_fields'], data_search['keyword'], 
+        keyword = data_search['keyword']
+        body_search = search_atcl_query_option(data_search['search_fields'], keyword, 
             data_search['start_date'], data_search['end_date'])
         data_result = es.search(index=newspaper_index, body=body_search)
+        # Get showed content
+        for hit in data_result['hits']['hits']:
+            content = hit['_source']['article_info']['article_content'] 
+            showed_content = get_show_content(content, keyword)
+            hit['showed_content'] = showed_content
+
     else:
         data_result = {
             "message": "Search failed, check you parsing data again"

@@ -82,3 +82,20 @@ def save_image_upload(current_app, img, filename):
 		outpath_img = outpath_img.replace("\\", "/")
 		image_url = image_url.replace("\\", "/")
 	return outpath_img, image_url
+
+def case_partition(text, sep):
+    ltext = text.lower()
+    lsep = sep.lower()
+    ind = ltext.find(lsep)
+    seplen = len(lsep)
+    return (text[:ind], text[ind:ind+seplen], text[ind+seplen:])
+
+def get_show_content(content, keyword, words_get=100):
+	pre_kw, kw, post_kw = case_partition(content, keyword)
+	words = (kw + post_kw).split()
+	if not words: words = pre_kw.split() #No keyword is found
+
+	words_get = words_get if len(words) >= words_get else len(words)
+	result = " ".join(words[:words_get])
+
+	return result 
