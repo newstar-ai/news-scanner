@@ -118,7 +118,7 @@ def search_atcl_by_fileds():
         # Get showed content
         for hit in data_result['hits']['hits']:
             content = hit['_source']['article_info']['article_content'] 
-            showed_content = get_show_content(content, keyword)
+            showed_content = get_show_content(content, keyword, data_search['search_fields']['content'])
             hit['showed_content'] = showed_content
 
     else:
