@@ -32,7 +32,7 @@ const Article = props => {
           <h2 style={{ fontSize: 24 }}>
             <Highlighter
               highlightClassName="hl-class"
-              searchWords={[props.location.searchInput]}
+              searchWords={[props.location.highlightText]}
               autoEscape={true}
               textToHighlight={article.article_info.article_title}
             />
@@ -48,17 +48,18 @@ const Article = props => {
             Tác giả:
             <Highlighter
               highlightClassName="hl-class"
-              searchWords={[props.location.searchInput]}
+              searchWords={[props.location.highlightText]}
               autoEscape={true}
               textToHighlight={article.article_info.article_author}
             />
           </h3>
+          <h3>Số từ: {article.article_info.words_count}</h3>
           <hr />
           <p>
             <Highlighter
               highlightClassName="hl-class"
               // searchWords={["gia"]}
-              searchWords={[props.location.searchInput]}
+              searchWords={[props.location.highlightText]}
               autoEscape={true}
               textToHighlight={article.article_info.article_content}
             />

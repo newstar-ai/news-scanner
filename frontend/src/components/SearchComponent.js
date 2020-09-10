@@ -1,78 +1,72 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Moment from 'moment';
-import { Input, Radio, Card, DatePicker } from 'antd';
+import { Input, Radio, Select, DatePicker } from 'antd';
 import '../css/Search.css';
 import { Container } from '../pages/create';
 import Result from './Result';
+import FilterSearch from './FilterSearch';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  setSearchText,
+  setStartDate,
+  setEndDate,
+  setNews,
+  setHighlightText
+} from '../actions';
 
 const { Search } = Input;
+const { Option } = Select;
 
 const SearchComponent = () => {
+  const searchText = useSelector(state => state.search.searchText);
+  const searchFilter = useSelector(state => state.search.searchFilter);
+  const startDate = useSelector(state => state.search.startDate);
+  const endDate = useSelector(state => state.search.endDate);
   const [news, setNews] = useState(null);
-  const [searchInput, setSearchInput] = useState('');
-  const [searchOption, setSearchOption] = useState('content');
-  const [dateRange, setDateRange] = useState([
-    Moment().subtract(5, 'months'),
-    Moment()
-  ]);
+
+  const dispatch = useDispatch();
+
+  const [searchInput, setSearchInput] = useState(searchText);
+  // const [dateRange, setDateRange] = useState([
+  //   Moment().subtract(5, 'months'),
+  //   Moment()
+  // ]);
   const [loading, setLoading] = useState(false);
   let requestOptions = {};
 
-  const options = [
-    { label: 'title', value: 'title' },
-    { label: 'author', value: 'author' },
-    { label: 'content', value: 'content' }
-  ];
-
   const handleSearchChange = e => {
     setSearchInput(e.target.value);
-  };
-
-  const handleRequest = e => {
-    setSearchOption(e.target.value);
+    dispatch(setSearchText(e.target.value));
   };
 
   const handleDateChange = e => {
-    setDateRange([
-      Moment(e[0]._d).format('YYYY-MM-DD'),
-      Moment(e[1]._d).format('YYYY-MM-DD')
-    ]);
+    dispatch(setStartDate(Moment(e[0]._d).format('YYYY-MM-DD')));
+    dispatch(setEndDate(Moment(e[1]._d).format('YYYY-MM-DD')));
   };
-
-  //   const getAll = () => {
-  //     axios
-  //       .get(`http://10.2.50.231:5000/article/get_all`)
-  //       .then(response => {
-  //         console.log(response.data.hits.hits);
-  //         setLoading(false);
-  //         setNews(response.data.hits.hits);
-  //       })
-  //       .catch(error => {
-  //         console.log(error);
-  //       });
-  //   };
 
   const getSearch = async () => {
     setLoading(true);
+    dispatch(setHighlightText(searchInput));
     requestOptions = {
-      [searchOption]: searchInput,
-      start_date: dateRange[0] ? dateRange[0] : '',
-      end_date: dateRange[1] ? dateRange[1] : ''
+      keyword: searchInput,
+      search_fields: {
+        content: searchFilter.includes('content'),
+        title: searchFilter.includes('title'),
+        author: searchFilter.includes('author')
+      },
+      start_date: startDate,
+      end_date: endDate
     };
-    console.log(requestOptions);
+
     const response = await axios.post(
-      `http://10.2.50.231:5000/article/search/${searchOption}`,
+      `http://10.2.50.231:5000/article/search`,
       requestOptions
     );
 
     setLoading(false);
     setNews(response.data.hits.hits);
   };
-
-  //   useEffect(() => {
-  //     getAll();
-  //   }, []);
 
   return (
     <Container className="search-component">
@@ -83,16 +77,11 @@ const SearchComponent = () => {
         onSearch={getSearch}
       />
       <div className="searchOption">
-        Search by
-        <Radio.Group
-          options={options}
-          value={searchOption}
-          onChange={handleRequest}
-        />
+        <FilterSearch />
         <Input.Group compact className="search-daterange">
           <div className="daterange-title">Date range</div>
           <DatePicker.RangePicker
-            defaultValue={dateRange}
+            defaultValue={[startDate, endDate]}
             style={{ width: '100%' }}
             onChange={handleDateChange}
           />
@@ -106,14 +95,13 @@ const SearchComponent = () => {
                 <Result
                   key={item._id}
                   id={item._id}
-                  artTitle={item._source.article_info.article_title}
-                  artAuthor={item._source.article_info.article_author}
-                  artContent={item._source.article_info.article_content}
-                  artLink={item._source.article_info.article_url_web}
+                  title={item._source.article_info.article_title}
+                  author={item._source.article_info.article_author}
+                  content={item.showed_content}
+                  link={item._source.article_info.article_url_web}
                   pubDate={item._source.publication_info.publish_date}
                   pageNum={item._source.publication_info.page_num}
                   newsTitle={item._source.newspaper_info.newspaper_title}
-                  searchInput={searchInput}
                 />
               ))
             : 'not found'}
