@@ -1,54 +1,37 @@
-import React, { useState } from 'react';
+import { Input } from 'antd';
 import axios from 'axios';
-import Moment from 'moment';
-import { Input, Radio, Select, DatePicker } from 'antd';
-import '../css/Search.css';
-import { Container } from '../pages/create';
-import Result from './Result';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setHighlightText, setSearchText } from '../../actions';
+import '../../css/Search.css';
+import { Container } from '../../pages/create';
+import Result from '../Result';
+import DateRange from './DateRange';
 import FilterSearch from './FilterSearch';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  setSearchText,
-  setStartDate,
-  setEndDate,
-  setNews,
-  setHighlightText
-} from '../actions';
 
 const { Search } = Input;
-const { Option } = Select;
 
-const SearchComponent = () => {
-  const searchText = useSelector(state => state.search.searchText);
-  const searchFilter = useSelector(state => state.search.searchFilter);
-  const startDate = useSelector(state => state.search.startDate);
-  const endDate = useSelector(state => state.search.endDate);
+const SearchHome = () => {
+  const { searchText, searchFilter, startDate, endDate } = useSelector(
+    state => state.search
+  );
   const [news, setNews] = useState(null);
 
   const dispatch = useDispatch();
 
   const [searchInput, setSearchInput] = useState(searchText);
-  // const [dateRange, setDateRange] = useState([
-  //   Moment().subtract(5, 'months'),
-  //   Moment()
-  // ]);
+
   const [loading, setLoading] = useState(false);
-  let requestOptions = {};
 
   const handleSearchChange = e => {
     setSearchInput(e.target.value);
     dispatch(setSearchText(e.target.value));
   };
 
-  const handleDateChange = e => {
-    dispatch(setStartDate(Moment(e[0]._d).format('YYYY-MM-DD')));
-    dispatch(setEndDate(Moment(e[1]._d).format('YYYY-MM-DD')));
-  };
-
   const getSearch = async () => {
     setLoading(true);
     dispatch(setHighlightText(searchInput));
-    requestOptions = {
+    let requestOptions = {
       keyword: searchInput,
       search_fields: {
         content: searchFilter.includes('content'),
@@ -78,14 +61,7 @@ const SearchComponent = () => {
       />
       <div className="searchOption">
         <FilterSearch />
-        <Input.Group compact className="search-daterange">
-          <div className="daterange-title">Date range</div>
-          <DatePicker.RangePicker
-            defaultValue={[startDate, endDate]}
-            style={{ width: '100%' }}
-            onChange={handleDateChange}
-          />
-        </Input.Group>
+        <DateRange />
       </div>
       {!loading && news ? (
         <>
@@ -115,4 +91,4 @@ const SearchComponent = () => {
   );
 };
 
-export default SearchComponent;
+export default SearchHome;

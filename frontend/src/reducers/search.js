@@ -1,5 +1,5 @@
 import { updateObject } from '../utils/utility';
-import Moment from 'moment';
+import moment from 'moment';
 
 export const searchFilterOptions = ['title', 'author', 'content'];
 
@@ -7,8 +7,8 @@ const init = {
   searchText: '',
   highlightText: '',
   searchFilter: searchFilterOptions,
-  startDate: Moment().subtract(5, 'months'),
-  endDate: Moment()
+  startDate: moment().subtract(5, 'months'),
+  endDate: moment()
 };
 
 const search = (state = init, action) => {

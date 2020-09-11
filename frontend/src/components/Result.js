@@ -1,11 +1,11 @@
-import { Card, Col, Row } from 'antd';
+import { Card } from 'antd';
 import Moment from 'moment';
 import React from 'react';
 import Highlighter from 'react-highlight-words';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 // import sgnews from '../images/sgnews.png';
 import '../css/Result.css';
-import { useSelector } from 'react-redux';
 
 const Result = ({
   id,

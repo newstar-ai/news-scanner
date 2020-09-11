@@ -1,12 +1,10 @@
-import { Select, Popover, Button, Checkbox } from 'antd';
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { setSearchFilter } from '../actions';
-import { searchFilterOptions } from '../reducers/search';
+import { Button, Checkbox, Popover } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSearchFilter } from '../../actions';
+import { searchFilterOptions } from '../../reducers/search';
 
 const CheckboxGroup = Checkbox.Group;
-
-const defaultCheckedList = ['title', 'author', 'content'];
 
 const FilterSearch = () => {
   const searchFilter = useSelector(state => state.search.searchFilter);
@@ -15,7 +13,7 @@ const FilterSearch = () => {
   const [openPopover, setOpenPopover] = useState(false);
 
   useEffect(() => {
-    if (checkedList.length == 0) {
+    if (checkedList.length === 0) {
       setCheckedList(searchFilterOptions);
     }
   }, [checkedList]);
@@ -54,7 +52,7 @@ const FilterSearch = () => {
         onVisibleChange={handleOpenPopover}
       >
         <Button>
-          {checkedList.length == 3 ? 'All' : checkedList.join(', ')}
+          {checkedList.length === 3 ? 'All' : checkedList.join(', ')}
         </Button>
       </Popover>
     </>
