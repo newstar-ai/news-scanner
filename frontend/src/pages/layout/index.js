@@ -40,7 +40,7 @@ const BasicLayout = () => (
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/create" component={Create} />
-          <Route path="/article/:id" component={Article} />
+          <Route path="/article/:id/:search" component={Article} />
         </Switch>
       </div>
     </Content>
