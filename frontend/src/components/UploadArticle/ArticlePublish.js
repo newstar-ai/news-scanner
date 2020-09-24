@@ -117,7 +117,7 @@ const ArticlePublish = props => {
                   }
                 ]}
               >
-                <InputNumber />
+                <InputNumber type="number" max={1000} min={1} />
               </Form.Item>
 
               {/* article_title */}
