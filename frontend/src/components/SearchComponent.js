@@ -15,6 +15,7 @@ const SearchComponent = () => {
     const [searchOption, setSearchOption] = useState('content');
     const [dateRange, setDateRange ] = useState([]);
     const [loading, setLoading] = useState(true);
+    
     let requestOptions = {};
 
     const options = [

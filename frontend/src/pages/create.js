@@ -1,25 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import {
-  Upload,
-  Button,
-  message,
-  Form,
-  Input,
-  InputNumber,
-  DatePicker,
-  Row,
-  Col,
-  Layout,
-  Menu
-} from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import { Button, message, Upload } from 'antd';
 import axios from 'axios';
-import moment from 'moment';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import ArticlePublish from '../components/UploadArticle/ArticlePublish';
-
-const { TextArea } = Input;
-const { Header, Content, Footer } = Layout;
 
 export const Container = styled.div`
   display: block;

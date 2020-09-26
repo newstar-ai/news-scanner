@@ -7,9 +7,10 @@ article_upload_schema = {
 				"article_author": {"type": "string"},
 				"article_content": {"type": "string"},
 				"article_url_local": {"type": "string"},
-				"article_url_web": {"type": "string"}
+				"article_url_web": {"type": "string"},
+				"words_count": {"type": "number"}
 			},
-			"required": ["article_title", "article_content", "article_url_local", "article_url_web"],
+			"required": ["article_title", "article_content", "article_url_local", "article_url_web", "words_count"],
 			"additionalProperties": False
 		},
 		"publication_info": {
@@ -73,5 +74,24 @@ article_search_content_schema = {
 		"end_date": {"type":"string"}
 	},
 	"required": ["content", "start_date", "end_date"],
+	"additionalProperties": False
+}
+
+article_search_schema = {
+	"type": "object",
+	"properties": {
+		"keyword": {"type": "string"},
+		"search_fields": {
+			"properties": {
+				"content": {"type": "boolean"},
+				"title": {"type": "boolean"},
+				"author": {"type": "boolean"}			
+			},
+			"required": ["content", "title", "author"]
+		},
+		"start_date": {"type": ["string", "null"]},
+		"end_date": {"type": ["string", "null"]}
+	},
+	"required": ["keyword", "search_fields", "start_date", "end_date"],
 	"additionalProperties": False
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import SearchComponent from '../components/SearchComponent';
+import { Link } from 'react-router-dom';
+import SearchHome from '../components/SearchHome';
 
 import '../css/home.css';
 
@@ -16,7 +17,7 @@ const Home = () => (
             <a href="/">News Scanner</a>
         </Title>
         <div className="container">
-            <SearchComponent />
+            <SearchHome />
         </div>
     </div>
 );

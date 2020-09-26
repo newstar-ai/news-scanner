@@ -1,76 +1,62 @@
+import { Card } from 'antd';
+import Moment from 'moment';
 import React from 'react';
-import { Card, Row, Col } from 'antd';
+import Highlighter from 'react-highlight-words';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 // import sgnews from '../images/sgnews.png';
 import '../css/Result.css';
-import LinesEllipsis from 'react-lines-ellipsis';
-import { Link } from 'react-router-dom';
-import Highlighter from "react-highlight-words";
-import Moment from "moment";
 
 const Result = ({
     id,
-    artTitle,
-    artAuthor,
-    artContent,
-    artLink,
+    title,
+    author,
+    content,
+    link,
     pageNum,
     pubDate,
-    newsTitle,
-    searchInput
+    newsTitle
 }) => {
+    const { highlightText, searchFilter } = useSelector(state => state.search);
+
     return (
         <Card
-            className="item"
+            className="card-container"
             hoverable
-            style={{ width: '100%' }}
+            style={{ marginTop: 0, marginBottom: 10 }}
             bodyStyle={{ height: '100%' }}
         >
-            <Row style={{ height: '100%' }}>
-                <Col span={20}>
-                    <Link to={{pathname: `article/${id}/${searchInput}`}}>
-                        <h2 style={{ fontSize: 20, fontWeight: 600 }}>
-                            <Highlighter
-                                highlightClassName="hl-class"
-                                searchWords={[searchInput]}
-                                autoEscape
-                                textToHighlight={artTitle}
-                            />  
-                        </h2>
-                    </Link>
+            <Link to={{ pathname: `article/${id}`}}>
+                <h2 style={{ fontSize: 20, fontWeight: 600 }}>
+                    <Highlighter
+                        highlightClassName="hl-class"
+                        searchWords={searchFilter.includes('title') ? [highlightText] : []}
+                        textToHighlight={title}
+                        autoEscape
+                    />
+                </h2>
+            </Link>
 
-                    <h3>
-            #{pageNum} - {Moment(pubDate).format("DD MMM YYYY")} - {newsTitle}
-                    </h3>
-                    <h3>
-                        {/* {artAuthor} */}
-                        <Highlighter
-                            highlightClassName="hl-class"
-                            searchWords={[searchInput]}
-                            autoEscape
-                            textToHighlight={artAuthor}
-                        />
-                    </h3>
-                    <p
-                        style={{
-                            whiteSpace: 'nowrap',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            fontSize: 16
-                        }}
-                    >
-                        {/* {artContent} */}
-                        <Highlighter
-                            highlightClassName="hl-class"
-                            searchWords={[searchInput]}
-                            autoEscape
-                            textToHighlight={artContent}
-                        />
-                    </p>
-                </Col>
-                <Col span={4}>
-                    {/* <img src={`//${artLink}`} alt="News" style={{ width: '100%' }} /> */}
-                </Col>
-            </Row>
+            <h3>
+        #{pageNum} - {Moment(pubDate).format('DD MMM YYYY')} - {newsTitle}
+            </h3>
+            <h3>
+                {/* {artAuthor} */}
+                <Highlighter
+                    highlightClassName="hl-class"
+                    searchWords={searchFilter.includes('author') ? [highlightText] : []}
+                    textToHighlight={author}
+                    autoEscape
+                />
+            </h3>
+            <p className="card-content">
+                <Highlighter
+                    highlightClassName="hl-class"
+                    searchWords={searchFilter.includes('content') ? [highlightText] : []}
+                    textToHighlight={content}
+                    autoEscape
+                />
+            </p>
         </Card>
     );
 };
