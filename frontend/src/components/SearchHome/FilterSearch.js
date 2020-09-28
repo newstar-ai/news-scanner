@@ -7,56 +7,77 @@ import { searchFilterOptions } from '../../reducers/search';
 const CheckboxGroup = Checkbox.Group;
 
 const FilterSearch = () => {
-  const searchFilter = useSelector(state => state.search.searchFilter);
-  const dispatch = useDispatch();
-  const [checkedList, setCheckedList] = useState(searchFilter);
-  const [openPopover, setOpenPopover] = useState(false);
+    const dispatch = useDispatch();
+    const searchFilter = useSelector(state => state.search.searchFilter);
 
-  useEffect(() => {
-    if (checkedList.length === 0) {
-      setCheckedList(searchFilterOptions);
-    }
-  }, [checkedList]);
+    const [checkedList, setCheckedList] = useState(searchFilter);
 
-  const onChange = checkedList => {
-    setCheckedList(checkedList);
-  };
+    const onChange = checkedList => {
+        setCheckedList(checkedList);
+        dispatch(setSearchFilter(checkedList));
+    };
+  
+    const onCheckAllChange = () => {
+        setCheckedList(searchFilterOptions);
+        dispatch(setSearchFilter(searchFilterOptions));
+    };
 
-  const saveFilter = () => {
-    setOpenPopover(false);
-    dispatch(setSearchFilter(checkedList));
-  };
-  const handleOpenPopover = status => {
-    setOpenPopover(status);
-  };
+    // const [checkedList, setCheckedList] = useState(searchFilter);
+    // const [openPopover, setOpenPopover] = useState(false);
 
-  const content = (
-    <div>
-      <CheckboxGroup
-        options={searchFilterOptions}
-        value={checkedList}
-        onChange={onChange}
-      />
-      <Button onClick={saveFilter}>Save</Button>
-    </div>
-  );
+    // useEffect(() => {
+    //     if (checkedList.length === 0) {
+    //         setCheckedList(searchFilterOptions);
+    //     }
+    // }, [checkedList]);
 
-  return (
-    <>
-      Search by
-      <Popover
-        placement="bottomRight"
-        content={content}
-        trigger="click"
-        visible={openPopover}
-        onVisibleChange={handleOpenPopover}
-      >
-        <Button>
-          {checkedList.length === 3 ? 'All' : checkedList.join(', ')}
-        </Button>
-      </Popover>
-    </>
-  );
+    // const onChange = checkedList => {
+    //     setCheckedList(checkedList);
+    // };
+
+    // const saveFilter = () => {
+    //     setOpenPopover(false);
+    //     dispatch(setSearchFilter(checkedList));
+    // };
+    // const handleOpenPopover = status => {
+    //     setOpenPopover(status);
+    // };
+
+    // const content = (
+    //     <div>
+    //         <CheckboxGroup
+    //             options={searchFilterOptions}
+    //             value={checkedList}
+    //             onChange={onChange}
+    //         />
+    //         <Button onClick={saveFilter}>Save</Button>
+    //     </div>
+    // );
+
+    return (
+        <>
+            <h3>Search by</h3>
+            {/* <Popover
+                placement="bottomRight"
+                content={content}
+                trigger="click"
+                visible={openPopover}
+                onVisibleChange={handleOpenPopover}
+            >
+                <Button>
+                    {checkedList.length === 3 ? 'All' : checkedList.join(', ')}
+                </Button>
+            </Popover> */}
+            <div className="site-checkbox-all-wrapper">
+            </div>
+            <CheckboxGroup
+                options={searchFilterOptions}
+                value={checkedList}
+                onChange={onChange}
+            />
+            <Button onClick={onCheckAllChange}>Check all</Button>
+        </>
+    );
 };
 
 export default FilterSearch;
