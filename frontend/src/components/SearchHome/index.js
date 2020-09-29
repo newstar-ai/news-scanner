@@ -5,67 +5,68 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setHighlightText, setSearchText } from '../../actions';
 import '../../css/Search.css';
 import { Container } from '../../pages/create';
-import Result from '../Result';
+import Result from './Result';
 import DateRange from './DateRange';
 import FilterSearch from './FilterSearch';
 
 const { Search } = Input;
 
 const SearchHome = () => {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    const { searchText, searchFilter, startDate, endDate } = useSelector(
-        state => state.search
+  const { searchText, searchFilter, startDate, endDate } = useSelector(
+    state => state.search
+  );
+
+  const [news, setNews] = useState([]);
+  const [searchInput, setSearchInput] = useState(searchText);
+  const [loading, setLoading] = useState(false);
+  console.log(loading);
+
+  const handleSearchChange = e => {
+    setSearchInput(e.target.value);
+    dispatch(setSearchText(e.target.value));
+  };
+
+  const getSearch = async () => {
+    setLoading(true);
+    dispatch(setHighlightText(searchInput));
+    let requestOptions = {
+      keyword: searchInput,
+      search_fields: {
+        content: searchFilter.includes('content'),
+        title: searchFilter.includes('title'),
+        author: searchFilter.includes('author')
+      },
+      start_date: startDate,
+      end_date: endDate
+    };
+
+    const response = await axios.post(
+      `http://10.2.50.231:5000/article/search`,
+      requestOptions
     );
 
-    const [news, setNews] = useState(null);
-    const [searchInput, setSearchInput] = useState(searchText);
-    const [loading, setLoading] = useState(false);
+    setLoading(false);
+    setNews(response.data.hits.hits);
+  };
 
-    const handleSearchChange = e => {
-        setSearchInput(e.target.value);
-        dispatch(setSearchText(e.target.value));
-    };
+  return (
+    <Container className="search-component">
+      <Search
+        placeholder="What are you looking for?"
+        value={searchInput}
+        onChange={handleSearchChange}
+        onSearch={getSearch}
+        suffix={<DateRange />}
+        className="searchBar"
+      />
+      <div className="searchOption">
+        <FilterSearch />
+      </div>
+      <Result data={news} loading={loading} />
 
-    const getSearch = async () => {
-        setLoading(true);
-        dispatch(setHighlightText(searchInput));
-        let requestOptions = {
-            keyword: searchInput,
-            search_fields: {
-                content: searchFilter.includes('content'),
-                title: searchFilter.includes('title'),
-                author: searchFilter.includes('author')
-            },
-            start_date: startDate,
-            end_date: endDate
-        };
-
-        const response = await axios.post(
-            `http://10.2.50.231:5000/article/search`,
-            requestOptions
-        );
-
-        setLoading(false);
-        setNews(response.data.hits.hits);
-    };
-
-
-
-    return (
-        <Container className="search-component">
-            <Search
-                placeholder="What are you looking for?"
-                value={searchInput}
-                onChange={handleSearchChange}
-                onSearch={getSearch}
-                suffix={<DateRange />}
-                className="searchBar"
-            />
-            <div className="searchOption">
-                <FilterSearch />
-            </div>
-            {!loading && news ? (
+      {/* {!loading && news ? (
                 <>
                     <h3 style={{ fontWeight: 600 }}>{news.length} kết quả</h3>
                     {news.length > 0
@@ -88,9 +89,9 @@ const SearchHome = () => {
                 'Loading...'
             ) : (
                 ''
-            )}
-        </Container>
-    );
+            )} */}
+    </Container>
+  );
 };
 
 export default SearchHome;
