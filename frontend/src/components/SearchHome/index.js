@@ -25,7 +25,7 @@ const SearchHome = () => {
   const [news, setNews] = useState([]);
   const [searchInput, setSearchInput] = useState(searchText);
   const [loading, setLoading] = useState(false);
-  console.log(loading);
+  const [checkedList, setCheckedList] = useState(searchFilter);
 
   const handleSearchChange = e => {
     setSearchInput(e.target.value);
