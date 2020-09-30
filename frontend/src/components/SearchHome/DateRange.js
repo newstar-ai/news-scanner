@@ -11,24 +11,30 @@ const DateRange = () => {
         startDate ? moment(startDate) : null,
         endDate ? moment(endDate) : null
     ]);
+    
 
     const dispatch = useDispatch();
 
-    const handleDateChange = dates => {
+    const handleDateChange = (dates) => {
+        console.log(dates)
+        if (dates === null) {
+            dates = [moment('2020-04-25'), moment()]
+        }
+        
         setDateRange([
-            dates[0] ? dates[0].format('YYYY-MM-DD') : null,
-            dates[1] ? dates[1].format('YYYY-MM-DD') : null
+            dates[0] ? dates[0].format('YYYY-MM-DD') : '2020-04-25',
+            dates[1] ? dates[1].format('YYYY-MM-DD') : moment()
         ]);
-        dispatch(setStartDate(dates[0] ? dates[0].format('YYYY-MM-DD') : null));
-        dispatch(setEndDate(dates[1] ? dates[1].format('YYYY-MM-DD') : null));
+        dispatch(setStartDate(dates[0] ? dates[0].format('YYYY-MM-DD') : '2020-04-25'));
+        dispatch(setEndDate(dates[1] ? dates[1].format('YYYY-MM-DD') : moment()));
     };
 
     return (
-        <Input.Group compact className="search-dateRange">
+        <Input.Group className="search-dateRange">
             <DatePicker.RangePicker
                 defaultValue={dateRange}
                 className="datePicker"
-                onChange={handleDateChange}
+                onChange={e => handleDateChange(e)}
             />
         </Input.Group>
     );

@@ -1,27 +1,14 @@
-import { Button, Checkbox, Popover } from 'antd';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setSearchFilter } from '../../actions';
+import React from 'react';
+import {
+    Button,
+    Checkbox
+} from 'antd';
 import { searchFilterOptions } from '../../reducers/search';
+
 
 const CheckboxGroup = Checkbox.Group;
 
-const FilterSearch = () => {
-    const dispatch = useDispatch();
-    const searchFilter = useSelector(state => state.search.searchFilter);
-
-    const [checkedList, setCheckedList] = useState(searchFilter);
-
-    const onChange = checkedList => {
-        setCheckedList(checkedList);
-        dispatch(setSearchFilter(checkedList));
-    };
-  
-    const onCheckAllChange = () => {
-        setCheckedList(searchFilterOptions);
-        dispatch(setSearchFilter(searchFilterOptions));
-    };
-
+const FilterSearch = ({ checkedList, onCheckChange, onCheckAllChange }) => {
     // const [checkedList, setCheckedList] = useState(searchFilter);
     // const [openPopover, setOpenPopover] = useState(false);
 
@@ -73,7 +60,7 @@ const FilterSearch = () => {
             <CheckboxGroup
                 options={searchFilterOptions}
                 value={checkedList}
-                onChange={onChange}
+                onChange={onCheckChange}
             />
             <Button onClick={onCheckAllChange}>Check all</Button>
         </>
