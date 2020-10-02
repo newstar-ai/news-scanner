@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 // import sgnews from '../images/sgnews.png';
 import '../../css/Result.css';
+import Highlight from '../Highlight';
 const ResultItem = ({
   id,
   title,
@@ -28,38 +29,30 @@ const ResultItem = ({
         // avatar={<Avatar src={item.avatar} />}
         title={
           <Link to={{ pathname: `article/${id}` }}>
-            <Highlighter
-              highlightClassName="hl-class"
-              searchWords={
+            <Highlight
+              searchInput={
                 searchFilter.includes('title') ? [highlightText] : []
               }
-              textToHighlight={title}
-              autoEscape
+              text={title}
             />
           </Link>
         }
         description={
           <>
-            <p>
-              #{pageNum} - {Moment(pubDate).format('DD MMM YYYY')} - {newsTitle}
-              <br></br>
-              <Highlighter
-                highlightClassName="hl-class"
-                searchWords={
-                  searchFilter.includes('author') ? [highlightText] : []
-                }
-                textToHighlight={author}
-                autoEscape
-              />
-            </p>
+            #{pageNum} - {Moment(pubDate).format('DD MMM YYYY')} - {newsTitle}
+            <br></br>
+            <Highlight
+              searchInput={
+                searchFilter.includes('author') ? [highlightText] : []
+              }
+              text={author}
+            />
           </>
         }
       />
-      <Highlighter
-        highlightClassName="hl-class"
-        searchWords={searchFilter.includes('content') ? [highlightText] : []}
-        textToHighlight={content}
-        autoEscape
+      <Highlight
+        searchInput={searchFilter.includes('content') ? [highlightText] : []}
+        text={content}
       />
     </List.Item>
   );
