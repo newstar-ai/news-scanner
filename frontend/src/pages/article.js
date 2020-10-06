@@ -1,8 +1,8 @@
 import axios from 'axios';
 import Moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import Highlighter from 'react-highlight-words';
 import { useSelector } from 'react-redux';
+import Highlight from '../components/Highlight';
 import '../css/article.css';
 
 const Article = props => {
@@ -32,11 +32,9 @@ const Article = props => {
                         style={{ height: '100%', objectFit: 'cover', width: '100%' }}
                     />
                     <h2 style={{ fontSize: 24 }}>
-                        <Highlighter
-                            highlightClassName="hl-class"
-                            searchWords={searchFilter.includes('title') ? [highlightText] : []}
-                            autoEscape
-                            textToHighlight={article.article_info.article_title}
+                        <Highlight
+                            searchInput={searchFilter.includes('title') ? highlightText : ''}
+                            text={article.article_info.article_title}
                         />
                     </h2>
                     <h3>
@@ -48,22 +46,17 @@ const Article = props => {
                     </h3>
                     <h3>
             Tác giả:
-                        <Highlighter
-                            highlightClassName="hl-class"
-                            searchWords={searchFilter.includes('author') ? [highlightText] : []}
-                            autoEscape
-                            textToHighlight={article.article_info.article_author}
+                        <Highlight
+                            searchInput={searchFilter.includes('author') ? highlightText : ''}
+                            text={article.article_info.article_author}
                         />
                     </h3>
                     <h3>Số từ: {article.article_info.words_count}</h3>
                     <hr />
                     <p>
-                        <Highlighter
-                            highlightClassName="hl-class"
-                            // searchWords={["gia"]}
-                            searchWords={searchFilter.includes('content') ? [highlightText] : []}
-                            autoEscape
-                            textToHighlight={article.article_info.article_content}
+                        <Highlight
+                            searchWords={searchFilter.includes('content') ? highlightText : ''}
+                            text={article.article_info.article_content}
                         />
                     </p>
                 </>
