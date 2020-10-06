@@ -55,64 +55,27 @@ def predict():
         result.status_code = 400
     return result
 
-# Search_article_by title
-
-
-@article_bp.route('/search/title', methods=['POST'])
-def search_atcl_by_title():
-    data_search = request.json
-    search_field = "article_title"
-    if validateArticleData(data_search, article_search_title_schema):
-        body_search = search_atcl_querry(search_field, data_search['title'], data_search['start_date'], data_search['end_date'])
-        data_result = es.search(index=newspaper_index, body=body_search)
-
-    else:
-        data_result = {
-            "message": "Search failed, check you parsing data again"
-        }
-    data_result = json.dumps(data_result, ensure_ascii=False, indent=4)
-    return data_result
-
-# Search_article_by author
-
-
-@article_bp.route('/search/author', methods=['POST'])
-def search_atcl_by_author():
-    data_search = request.json
-    search_field = "article_author"
-    if validateArticleData(data_search, article_search_author_schema):
-        body_search = search_atcl_querry(search_field, data_search['author'], data_search['start_date'], data_search['end_date'])
-        data_result = es.search(index=newspaper_index, body=body_search)
-
-    else:
-        data_result = {
-            "message": "Search failed, check you parsing data again"
-        }
-    data_result = json.dumps(data_result, ensure_ascii=False, indent=4)
-    return data_result
-
-# Search_article_by content
-@article_bp.route('/search/content', methods=['POST'])
-def search_atcl_by_content():
-    data_search = request.json
-    search_field = "article_content"
-    if validateArticleData(data_search, article_search_content_schema):
-        body_search = search_atcl_querry(search_field, data_search['content'], data_search['start_date'], data_search['end_date'])
-        data_result = es.search(index=newspaper_index, body=body_search)
-    else:
-        data_result = {
-            "message": "Search failed, check you parsing data again"
-        }
-    data_result = json.dumps(data_result, ensure_ascii=False, indent=4)
-    return data_result
-
 # Search with fields
+'''
+format of parsing data
+{
+    "keyword": "sparta",
+    # If search_fields."anyfield" = true, we want to search within that field
+    "search_fields": {
+        "content": true, 
+        "title": false,
+        "author": false
+    },
+    "start_date": "2019-05-25",
+    "end_date": "now"
+}
+'''
 @article_bp.route('/search', methods=['POST'])
 def search_atcl_by_fileds():
     data_search = request.json
     if validateArticleData(data_search, article_search_schema):
         keyword = data_search['keyword']
-        body_search = search_atcl_query_option(data_search['search_fields'], keyword, 
+        body_search = search_atcl_query(data_search['search_fields'], keyword, 
             data_search['start_date'], data_search['end_date'])
         data_result = es.search(index=newspaper_index, body=body_search)
         # Get showed content

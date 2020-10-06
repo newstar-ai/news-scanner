@@ -1,3 +1,8 @@
+'''
+This file defines boundaries of data parsed by api
+Those schema is used by json_schema libary
+'''
+
 article_upload_schema = {
 	"type": "object",
 	"properties": {
@@ -41,39 +46,6 @@ article_update_schema = {
 		"content": {"type": "string"}
 	},
 	"required": ["title", "content"],
-	"additionalProperties": False
-}
-
-article_search_title_schema = {
-	"type": "object",
-	"properties": {
-		"title": {"type":"string"},
-		"start_date": {"type":"string"},
-		"end_date": {"type":"string"}
-	},
-	"required": ["title", "start_date", "end_date"],
-	"additionalProperties": False
-}
-
-article_search_author_schema = {
-	"type": "object",
-	"properties": {
-		"author": {"type":"string"},
-		"start_date": {"type":"string"},
-		"end_date": {"type":"string"}
-	},
-	"required": ["author", "start_date", "end_date"],
-	"additionalProperties": False
-}
-
-article_search_content_schema = {
-	"type": "object",
-	"properties": {
-		"content": {"type":"string"},
-		"start_date": {"type":"string"},
-		"end_date": {"type":"string"}
-	},
-	"required": ["content", "start_date", "end_date"],
 	"additionalProperties": False
 }
 
