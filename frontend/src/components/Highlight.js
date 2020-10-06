@@ -13,6 +13,6 @@ const Highlight = ({ searchInput, text }) => {
     return (
         <span dangerouslySetInnerHTML={{__html: createHighlight()}}></span>
     );
-};
+}
 
 export default Highlight;
