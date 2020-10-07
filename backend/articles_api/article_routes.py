@@ -59,7 +59,8 @@ def predict():
 '''
 format of parsing data
 {
-    "keyword": "sparta",
+    "keyword_must": "sparta",
+    "keyword_should": "Trump is stupid",
     # If search_fields."anyfield" = true, we want to search within that field
     "search_fields": {
         "content": true, 
@@ -74,8 +75,9 @@ format of parsing data
 def search_atcl_by_fileds():
     data_search = request.json
     if validateArticleData(data_search, article_search_schema):
-        keyword = data_search['keyword']
-        body_search = search_atcl_query(data_search['search_fields'], keyword, 
+        keyword_must = data_search['keyword_must']
+        keyword_should = data_search['keyword_should']
+        body_search = search_atcl_query(data_search['search_fields'], keyword_must, keyword_should,
             data_search['start_date'], data_search['end_date'])
         data_result = es.search(index=newspaper_index, body=body_search)
         # Get showed content

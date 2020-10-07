@@ -22,13 +22,14 @@ def validateArticleData(jsonData, schema_type):
     return True
 
 
-def search_atcl_query(field_search, keyword, start_date, end_date):
+def search_atcl_query(field_search, keyword_must, keyword_should, start_date, end_date):
     '''
     This function return query body to make a search request to Elasticsearch system 
     @param field_search: json object define desire search field s
-    @param keyword: 
+    @param keyword_must:  words the search must include
+	@param keyword_should: words the search should include 
     @param start_date: 
-    @param end_date
+    @param end_date:
 
     For example 
     {
@@ -52,24 +53,43 @@ def search_atcl_query(field_search, keyword, start_date, end_date):
               }
             }
           ]
+		  "should": [
+			  {
+				  "dis_max": {
+					  "queries": [
+
+					  ]
+				  }
+			  }
+		  ]
         }
       }
     }
     '''
-    queries = [] # Array of desire search fields
+    must_queries = [] # Array of desire search fields
+	should_queries = []
+
     for field in field_search:
         if field_search[field]: 
             phrase = {
-                "match_phrase": {f"article_info.article_{field}": keyword}
+                "match_phrase": {f"article_info.article_{field}": keyword_must}
             }
-            queries.append(phrase)
+            must_queries.append(phrase)
+
+	for field in field_search:
+		if field_search[field]:
+			phrase = {
+				"match_phrase": {f"article_info.article_{field}": keyword_should}
+			}
+			should_queries.append(phrase)
+
     query_body = {
         "query": {
             "bool": {
                 "must": [
                     {
                         "dis_max": {
-                            "queries": queries
+                            "queries": must_queries
                         }
                     },
                     {
@@ -81,6 +101,13 @@ def search_atcl_query(field_search, keyword, start_date, end_date):
                         }
                     }
                 ]
+				"should":[
+					{
+						"dis_max": {
+							"queries": should_queries
+						}
+					}
+				]
             }
         }
     }
@@ -112,34 +139,34 @@ def save_image_upload(current_app, img, filename):
         image_url = image_url.replace("\\", "/")
     return outpath_img, image_url
 
-def noncase_partition(text, keyword):
+def noncase_partition(text, keyword_must):
     '''
-    Find matching keyword, divide text into 3 parts
+    Find matching keyword_must, divide text into 3 parts
     - previous matching word
     - marching word
     - post matching word
     @param text: sentence to handle
-    @param keyword: 
+    @param keyword_must: 
     '''
     ltext = text.lower()
-    lkeyword = keyword.lower()
-    ind = ltext.find(lkeyword)
-    keyword_len = len(lkeyword)
-    return (text[:ind], text[ind:ind+keyword_len], text[ind+keyword_len:])
+    lkeyword_must = keyword_must.lower()
+    ind = ltext.find(lkeyword_must)
+    keyword_must_len = len(lkeyword_must)
+    return (text[:ind], text[ind:ind+keyword_must_len], text[ind+keyword_must_len:])
 
-def get_show_content(content, keyword, search_content, limited_words=100):
+def get_show_content(content, keyword_must, search_content, limited_words=100):
     '''
-    return shortened content started with keyword from article content if searching by content is requested
+    return shortened content started with keyword_must from article content if searching by content is requested
     else return begining limited_word of the content
     @param content: article content
-    @param keyword: 
+    @param keyword_must: 
     @param search_content: equal to true if searching by content is requested
     @param limited_words: 
     '''
     if search_content:
-        pre_kw, kw, post_kw = noncase_partition(content, keyword)
+        pre_kw, kw, post_kw = noncase_partition(content, keyword_must)
         words = (kw + post_kw).split()
-        if not words: words = pre_kw.split() # No keyword is found
+        if not words: words = pre_kw.split() # No keyword_must is found
     else: words = content.split()
     
     limited_words = limited_words if len(words) >= limited_words else len(words)
