@@ -31,12 +31,12 @@ const Create = () => {
 
     const steps = [
         {
-            title: 'Upload',
-            content: <UploadNewsPage />,
-        },
-        {
             title: 'Newspaper Info',
             content: <NewspaperInfo />,
+        },
+        {
+            title: 'Upload',
+            content: <UploadNewsPage />,
         },
         {
             title: 'Crop',

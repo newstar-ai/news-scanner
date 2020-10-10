@@ -38,8 +38,6 @@ const CropScreen = (props) => {
         //     }
         // };
 
-        const canvas = document.createElement("canvas");
-        const context = canvas.getContext('2d');
           
         const img = document.getElementsByTagName('img')[0];
         const xRatio = img.naturalWidth / img.width;
@@ -48,17 +46,27 @@ const CropScreen = (props) => {
         const croppedList = [];
 
         const croppedContainer = document.getElementById('cropped-container')
+        croppedContainer.innerHTML = ''
 
         coord.forEach((item, i) => {
+            const canvas = document.createElement("canvas");
+            const context = canvas.getContext('2d');
             const newImg = new Image();
         
             newImg.onload = function() {
-                const sx = item.x;
-                const sy = item.y;
-                const sw = item.width;
-                const sh = item.height;
-        
-                context.drawImage(newImg, sx*xRatio, sy*yRatio, sw*xRatio, sh*yRatio, 0, 0, sw*xRatio, sh*yRatio);
+                const x = item.x*xRatio;
+                const y = item.y*yRatio;
+                const w = item.width*xRatio;
+                const h = item.height*yRatio;
+
+                canvas.width = w;
+                canvas.height = h;
+                context.drawImage(newImg, x, y, w, h, 0, 0, w, h);
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                canvas.width = w*0.2;
+                canvas.height = h*0.2;
+                context.scale(0.2,0.2);
+                context.drawImage(newImg, x, y, w, h, 0, 0, w, h);
             };
 
             // const url = `http://${props.imgData.img_url}`
@@ -92,7 +100,7 @@ const CropScreen = (props) => {
                     coordinates={coord}
                     onChange={changeCoord}
                     onDelete={deleteCoord}
-                    // height='700vh'
+                    height='700vh'
                 />
                 <Pagination simple defaultCurrent={1} total={50} style={{ marginTop: 10 }} />
             </Col>
@@ -103,9 +111,11 @@ const CropScreen = (props) => {
                 className="crop-right-panel"
             >
                 <div style={{ textAlign: 'left' }}>
-                    <div>Tổng số bài báo: 2</div>
-                    <div>Tổng số trang báo: 4</div>
-                    <div id="cropped-container"></div>
+                    <Row span={1}>Tổng số bài báo: 2</Row>
+                    <Row span={1}>Tổng số trang báo: 4</Row>
+                    <Row span={22} style={{overflow: 'auto'}}>
+                        <div id="cropped-container"></div>
+                    </Row>
                 </div>
                 <Button type="primary" htmlType="submit" onClick={cropSave}>Save</Button>
             </Col>
