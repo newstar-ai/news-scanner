@@ -164,14 +164,14 @@ const ArticlePublish = props => {
                                 // {...tailLayout}
                             >
                                 <Button type="primary" htmlType="submit">
-                  Submit
+                                    Submit
                                 </Button>
                                 <Button
                                     style={{ marginLeft: 16 }}
                                     htmlType="button"
                                     onClick={onReset}
                                 >
-                  Reset
+                                    Reset
                                 </Button>
                             </Form.Item>
                         </Form>
