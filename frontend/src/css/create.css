@@ -18,6 +18,8 @@
 
 #cropped-container {
   margin-top: 10px;
+  height: 450px;
   overflow: auto;
-  overflow-y: scroll;
+  background: rgba(0,0,0,0.05);
+  padding: 10px;
 }

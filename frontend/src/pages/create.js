@@ -82,7 +82,6 @@ const Create = () => {
                             Done
                         </Button>
                     )}
-          
                 </div>
 
             </Wrapper>
