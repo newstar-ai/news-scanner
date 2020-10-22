@@ -6,8 +6,9 @@ import axios from 'axios';
 import Moment from 'moment';
 
 const CropScreen = (props) => {
-    const [ coord, setCoord ] = useState([]);
-    const [ delIndex, setDelIndex] = useState(-1);
+    const [coord, setCoord] = useState([]);
+    const [croppedNum, setCroppedNum] = useState(0);
+    const [delIndex, setDelIndex] = useState(-1);
 
     useEffect(() => {
 
@@ -89,7 +90,8 @@ const CropScreen = (props) => {
         // })
     };
 
-    useEffect(() => {
+    const draw = () => {
+        setCroppedNum(coord.length);
         const img = document.getElementsByTagName('img')[0];
         const xRatio = img.naturalWidth / img.width;
         const yRatio = img.naturalHeight / img.height;
@@ -103,7 +105,7 @@ const CropScreen = (props) => {
             const cv = document.createElement("canvas");
             const ctx = cv.getContext('2d');
             const newImg = new Image();
-        
+    
             newImg.onload = function() {
                 const x = item.x*xRatio;
                 const y = item.y*yRatio;
@@ -129,12 +131,20 @@ const CropScreen = (props) => {
             indexBox.innerHTML = `${i+1}.`;
             croppedCtn.appendChild(indexBox);
             croppedCtn.appendChild(cv);
+            
         });
-    }, [coord]);
+    };
+
+    useEffect(() => {
+        const cropped = document.getElementById('cropped-container').childElementCount;
+        if (cropped > coord.length) {
+            draw()
+        }
+    }, [coord])
 
     return (
         <Row style={{ width: '100%', marginBottom: 20 }}>
-            <Col sm={18} xs={24} align='center' height={550}>
+            <Col sm={18} xs={24} align='center' height={550} onMouseUp={draw}>
                 <MultiCrops
                     // src={`http://${props.imgData.img_url}`}
                     src={require('../../images/default.png')}
@@ -164,12 +174,12 @@ const CropScreen = (props) => {
                         <b style={{ whiteSpace: 'pre'}}>Tổng số trang báo: </b>4
                     </Row>
                     <Row span={1}>
-                        <b style={{ whiteSpace: 'pre'}}>Các ảnh đã cắt: </b>{coord.length}
+                        <b style={{ whiteSpace: 'pre'}}>Các ảnh đã cắt: </b>{croppedNum}
                     </Row>
                     <Row span={21} style={{overflow: 'auto'}}>
                         <Col
                             id="cropped-container"
-                            style={!coord.length && { background: 'transparent'}}
+                            style={!croppedNum && { background: 'transparent'}}
                         />
                     </Row>
                 </div>
