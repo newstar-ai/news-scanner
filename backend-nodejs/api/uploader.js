@@ -11,6 +11,7 @@ const storage = multer.memoryStorage({
         callback(null, '')
     }
 })
-var uploader = multer({storage: storage, fileFilter: utils.imageFilter})
 
-module.exports = uploader;
+var img_uploader = multer({storage: storage, fileFilter: utils.imageFilter})
+
+exports.img_uploader = img_uploader;
