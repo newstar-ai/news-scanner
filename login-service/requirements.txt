@@ -1,0 +1,7 @@
+flask-login==0.5.0
+flask==1.1.2
+pg8000==1.16.6
+psycopg2-binary
+python-dotenv
+bcrypt==3.2.0
+flask-cors==3.0.9
