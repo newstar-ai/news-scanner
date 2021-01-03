@@ -13,6 +13,18 @@ News Scanner
 
 ### Backend
 
+
+### Login service
+1. docker-compose up -d // bring up the postgres service
+2. cd login-service
+3. pip install -r requirements.txt // install all required packages
+4. cd src && python api.py // start the login api at localhost:5000
+
+### Login dashboard
+1. cd dashboard/material-dashboard-react
+2. npm i // install all required packages
+3. npm start // start the dashboard at localhost:3000
+   
 ## Workflow
 
 1. Run `git fetch all` to update code from remote
